@@ -1,7 +1,16 @@
 {
   "name": "bpm-quest",
   "packageManager": "yarn@3.1.1",
+  "private": true,
+  "license": "MIT",
   "devDependencies": {
-    "prettier": "2.5.1"
+    "@babel/core": "^7.17.2",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "babel-loader": "^8.2.3",
+    "prettier": "^2.5.1",
+    "webpack": "^5.68.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
   }
 }
