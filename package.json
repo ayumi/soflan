@@ -1,0 +1,7 @@
+{
+  "name": "bpm-quest",
+  "packageManager": "yarn@3.1.1",
+  "devDependencies": {
+    "prettier": "2.5.1"
+  }
+}
