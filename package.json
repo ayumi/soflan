@@ -3,6 +3,9 @@
   "packageManager": "yarn@3.1.1",
   "private": true,
   "license": "MIT",
+  "scripts": {
+    "convert": "yarn run convert-simfiles.js"
+  },
   "devDependencies": {
     "@babel/core": "^7.17.2",
     "@babel/preset-env": "^7.16.11",

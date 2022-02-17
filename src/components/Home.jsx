@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Home = () => {
-return <div>Nicee</div>
+const Home = (props) => {
+return <div>my data: {props.data}</div>
 }
 
 export default Home
