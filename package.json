@@ -12,6 +12,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.3",
+    "glob": "^8.0.3",
     "knex": "^2.2.0",
     "lodash": "^4.17.21",
     "prettier": "^2.5.1",
