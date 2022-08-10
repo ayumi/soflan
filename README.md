@@ -25,26 +25,26 @@
 
 title: ACE FOR ACES
 artist: TAG
-bpmDisplay: 123
+type: dance-single
 charts:
-  dance-single:  // Type
-    medium:  // Difficulty (one of Beginner, Easy, Medium, Hard, Challenge)
-      level: 13  // called Meter in SSC
-      events:
-      - t: 1  // t (time); Beat (Derived from SM/SSC which has measure + measure offset). Precision: 4 decimal points
-        c: 1  // c (combo): DDR notes combo count
-        n: 0100  // note data. corresponds to simfile NOTES but just 1 line.
-      - t: 0
-        c: 1
-        s: 3  // stop time in seconds.
-      - t: 1
-        c: 2
-        b: 200  // bpm change; new bpm
-      bpms:  // All bpm events, denormalized
-      - t: 1
-        c: 2
-        b: 200
-      stops:  // All stop events, denormalized
-      - t: 1
-        c: 2
-        b: 200
+  medium:  // Difficulty (one of Beginner, Easy, Medium, Hard, Challenge)
+    level: 13  // called Meter in SSC
+    bpmDisplay: 123
+    events:
+    - t: 1  // t (time); Beat (Derived from SM/SSC which has measure + measure offset). Precision: 4 decimal points
+      c: 1  // c (combo): DDR notes combo count
+      n: 0100  // note data. corresponds to simfile NOTES but just 1 line.
+    - t: 0
+      c: 1
+      s: 3  // stop time in seconds.
+    - t: 1
+      c: 2
+      b: 200  // bpm change; new bpm
+    bpms:  // All bpm events, denormalized
+    - t: 1
+      c: 2
+      b: 200
+    stops:  // All stop events, denormalized
+    - t: 1
+      c: 2
+      b: 200

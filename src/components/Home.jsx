@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Home = (props) => {
-return <div>my data: {props.data}</div>
+return <div>Songs: {props.songs}</div>
 }
 
 export default Home
