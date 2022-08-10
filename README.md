@@ -1,4 +1,4 @@
-# bpm-quest
+# nicechart
 
 ## Notes
 
