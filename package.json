@@ -1,10 +1,12 @@
 {
   "name": "nicechart",
-  "packageManager": "yarn@3.1.1",
+  "packageManager": "yarn@3.2.3",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "convert": "node script/convert-simfiles.js"
+    "import": "node script/import.js",
+    "sql": "sqlite3 db/dev.sqlite3",
+    "start": "webpack serve --mode development"
   },
   "type": "module",
   "devDependencies": {

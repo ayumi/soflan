@@ -42,7 +42,7 @@ glob(folder + '/**/*.+(sm|ssc)', {}, async (err, files) => {
           charts: song.charts,
           chart_type_dance_single: !!song.charts["dance-single"],
           chart_type_dance_double: !!song.charts["dance-double"],
-          other_data: song.other_data,
+          other_data: song.otherData,
         })
         .onConflict(["title", "artist"])
         .merge()

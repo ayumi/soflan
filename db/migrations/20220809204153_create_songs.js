@@ -12,7 +12,7 @@ export function up(knex) {
       table.boolean("chart_type_dance_single");
       table.boolean("chart_type_dance_double");
       table.json("other_data");
-      table.timestamps();
+      table.timestamps(true, true);
       table.unique(["title", "artist"]);
     })
 };
