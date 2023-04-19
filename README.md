@@ -8,22 +8,6 @@
 `yarn knex migrate:up` - Run DB migrations.
 `yarn knex migrate:down` - Roll back DB migrations.
 
-## DB Schema
-
-```sql
-CREATE TABLE `songs`(
-  `id` integer not null primary key autoincrement,
-  `title` varchar(255),
-  `artist` varchar(255),
-  `charts` json, /* .charts section of our JSON Song format (see below). */
-  `chart_type_dance_single` boolean, /* Presence of 4 panel Singles chart */
-  `chart_type_dance_double` boolean, /* Presence of 8 panel Doubles chart */
-  `other_data` json, /* Catch-all for other data in the simfile */
-  `created_at` datetime,
-  `updated_at` datetime
-);
-```
-
 ## Notes
 
 - Offline script:
@@ -45,6 +29,22 @@ CREATE TABLE `songs`(
   - Single/Double selector. Force to single for now.
   - Sticky between page loads (local storage).
 
+## DB Schema
+
+  ```sql
+  CREATE TABLE `songs`(
+    `id` integer not null primary key autoincrement,
+    `title` varchar(255),
+    `artist` varchar(255),
+    `charts` json, /* .charts section of our JSON Song format (see below). */
+    `chart_type_dance_single` boolean, /* Presence of 4 panel Singles chart */
+    `chart_type_dance_double` boolean, /* Presence of 8 panel Doubles chart */
+    `other_data` json, /* Catch-all for other data in the simfile */
+    `created_at` datetime,
+    `updated_at` datetime
+  );
+  ```
+  
 ## JSON Song format
 
 title: ACE FOR ACES

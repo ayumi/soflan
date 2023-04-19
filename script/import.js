@@ -1,4 +1,5 @@
-// Given a folder, finds all simfiles and imports them to the songs folder.
+// Given a folder, reads all simfiles then imports them so the app can use them.
+// Write the songs folder and updates songs.json which are used by the web app.
 // Also adds songs to the local database.
 // Usage: import.js [Directory containing simfiles]
 
@@ -11,8 +12,8 @@ import knexfile from "../knexfile.js";
 import convertSimfile from "./convert-simfile.js";
 
 const __dirname = path.resolve();
-const SONGS_PATH = path.join(__dirname, 'public', 'songs');
-const SONGLIST = path.join(__dirname, 'src', 'songs.json');
+const OUTPUT_SONGS_PATH = path.join(__dirname, 'public', 'songs');
+const OUTPUT_SONGLIST = path.join(__dirname, 'src', 'songs.json');
 
 const logAndExit = (message) => {
   console.error(message);
@@ -68,7 +69,7 @@ glob(folder + '/**/*.+(sm|ssc)', {}, async (err, files) => {
         console.log(`Writing ${songFilename}`);
         const json = JSON.stringify(chartSong);
         try {
-          await writeFile(path.join(SONGS_PATH, songFilename), json);
+          await writeFile(path.join(OUTPUT_SONGS_PATH, songFilename), json);
         } catch (e) {
           logAndExit(e);
         }
@@ -89,7 +90,7 @@ glob(folder + '/**/*.+(sm|ssc)', {}, async (err, files) => {
     for (const { title, artist } of result) {
       songList.push(`${title} - ${artist}`);
     }
-    await writeFile(SONGLIST, JSON.stringify(songList));
+    await writeFile(OUTPUT_SONGLIST, JSON.stringify(songList));
 
   } catch (e) {
     logAndExit(e);
