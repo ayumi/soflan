@@ -1,7 +1,6 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.jsx',
   externals: {
     react: 'React',
     'react-dom' : 'ReactDOM',
@@ -18,9 +17,16 @@ module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx'],
   },
+  entry: {
+    index: {
+      dependOn: 'songs',
+      import: './src/index.jsx',
+    },
+    songs: './src/songs.json',
+  },
   output: {
     path: path.resolve(__dirname, './public'),
-    filename: 'main.js',
+    filename: '[name].js',
   },
   devServer: {
     static: {
