@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksoflan=self.webpackChunksoflan||[]).push([[826],{145:(e,n,s)=>{const t=React;var a=s.n(t);const c=ReactDOM;var o=s.n(c);const r=function(e){return a().createElement("div",null,"Songs: ",e.songs)};var l=s(9);o().render(a().createElement(r,{songs:l}),document.getElementById("app"))}},e=>{e(e.s=145)}]);
