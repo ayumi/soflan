@@ -1,4 +1,4 @@
-# nicechart
+# Soflan.net
 
 ## Development tips
 
