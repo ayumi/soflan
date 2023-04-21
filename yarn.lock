@@ -5658,7 +5658,6 @@ __metadata:
     core-js: ^3.30.1
     glob: ^10.2.1
     knex: ^2.4.2
-    lodash: ^4.17.21
     prettier: ^2.8.7
     react: ^18.2.0
     react-dom: ^18.2.0

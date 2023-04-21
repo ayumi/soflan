@@ -42,7 +42,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["core-js", "npm:3.30.1"],\
             ["glob", "npm:10.2.1"],\
             ["knex", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:2.4.2"],\
-            ["lodash", "npm:4.17.21"],\
             ["prettier", "npm:2.8.7"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:18.2.0"],\
@@ -7428,7 +7427,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["core-js", "npm:3.30.1"],\
             ["glob", "npm:10.2.1"],\
             ["knex", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:2.4.2"],\
-            ["lodash", "npm:4.17.21"],\
             ["prettier", "npm:2.8.7"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:18.2.0"],\

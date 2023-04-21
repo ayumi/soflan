@@ -42,7 +42,7 @@ export default async function convertSimfile(path) {
 
   // Initialize difficulty specific stepchart data. This holds
   // data while we fill it in during NOTEDATA and NOTES.
-  let chart = _.cloneDeep(CHART_BASE);
+  let chart = structuredClone(CHART_BASE);
   let chartType = "";
   let chartDiff = "";
   // Null now but will be set to [] later
@@ -63,7 +63,7 @@ export default async function convertSimfile(path) {
   let c = 0;
 
   const resetChart = () => {
-    chart = _.cloneDeep(CHART_BASE);
+    chart = structuredClone(CHART_BASE);
     chartType = "";
     chartDiff = "";
     chartBpmsBeats = null;
@@ -127,8 +127,8 @@ export default async function convertSimfile(path) {
         logAndExit("NOTEDATA while in previous NOTEDATA.", line);
       }
       // Init BPM changes and Stops by Beat. Later we calculate by Combo.
-      chartBpmsBeats = _.cloneDeep(baseBpmsBeats);
-      chartStopsBeats = _.cloneDeep(baseStopsBeats);
+      chartBpmsBeats = structuredClone(baseBpmsBeats);
+      chartStopsBeats = structuredClone(baseStopsBeats);
       noteDataActive = true;
       continue;
     } else if (line === "#NOTES:") {
@@ -136,8 +136,8 @@ export default async function convertSimfile(path) {
         logAndExit("NOTES while in previous NOTES.", line);
       }
       // In case we didn't have NOTEDATA
-      chartBpmsBeats = chartBpmsBeats || _.cloneDeep(baseBpmsBeats);
-      chartStopsBeats = chartStopsBeats || _.cloneDeep(baseStopsBeats);
+      chartBpmsBeats = chartBpmsBeats || structuredClone(baseBpmsBeats);
+      chartStopsBeats = chartStopsBeats || structuredClone(baseStopsBeats);
       chartBpmNext = chartBpmsBeats.shift();
       chartStopNext = chartStopsBeats.shift();
       notesActive = true;
@@ -209,7 +209,7 @@ export default async function convertSimfile(path) {
       // Flush to song data and reset active chart
       const chartDiffKey = DIFF_OVERRIDES[chartDiff] || chartDiff;
       song.charts[chartType] = song.charts[chartType] || {};
-      song.charts[chartType][chartDiffKey] = _.cloneDeep(chart);
+      song.charts[chartType][chartDiffKey] = structuredClone(chart);
       resetChart();
       continue;
     }
@@ -288,7 +288,7 @@ export default async function convertSimfile(path) {
         }
         break;
       default:
-        _.set(song.otherData, key, value);
+        song.otherData[key] = value;
     }
   }
 

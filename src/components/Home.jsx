@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
-import _ from 'lodash';
 
 import Song from './Song';
 
 const Home = (props) => {
-  const [selectedOption, setSelectedOption] = useState(null);
+  // FIXME: Currently dance-single is hardcoded
+  const [chartType, setChartType] = useState('dance-single');
+
   const [songUrl, setSongUrl] = useState(null);
-  function handleSelectChange(option) {
-    setSelectedOption(option.value);
-    setSongUrl("/songs/" + option.value + "--dance-single.json");
+  const [selectedSongOption, setSelectedSongOption] = useState(null);
+  function handleSelectSongChange(option) {
+    const song = option.value;
+    setSelectedSongOption(song);
+    setSongUrl(`/songs/${song}--${chartType}.json`);
   }
 
-  const options = _.map(props.songs, song => {
+  const options = props.songs.map(song => {
     return { value: song, label: song }
   });
 
@@ -20,8 +23,8 @@ const Home = (props) => {
   return (
     <div>
       <Select
-        defaultValue={selectedOption}
-        onChange={handleSelectChange}
+        defaultValue={selectedSongOption}
+        onChange={handleSelectSongChange}
         options={options}
       />
       <Song

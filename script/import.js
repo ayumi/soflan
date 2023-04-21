@@ -3,7 +3,6 @@
 // Also adds songs to the local database.
 // Usage: import.js [Directory containing simfiles]
 
-import _ from "lodash";
 import glob from "glob";
 import { writeFile } from "node:fs/promises";
 import path from 'path';
@@ -63,8 +62,12 @@ glob(folder + '/**/*.+(sm|ssc)', {}, async (err, files) => {
           continue;
         }
 
-        const chartSong = _.pick(song, ["title,", "artist", "type"])
-        chartSong["charts"] = chartTypeCharts
+        const chartSong = {
+          charts: chartTypeCharts,
+          title: song.title,
+          artist: song.artist,
+          type: song.type,
+        }
         const songFilename = `${song.title} - ${song.artist}--${chartType}.json`;
         console.log(`Writing ${songFilename}`);
         const json = JSON.stringify(chartSong);
