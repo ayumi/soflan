@@ -3,17 +3,19 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 
 import Chart from './Chart';
+import { writeUrlHash } from '../util'
 
 const SONG_DATA_DEFAULT = { charts: [] };
 
 const Song = (props) => {
   const [songData, setSongData] = useState(SONG_DATA_DEFAULT);
-  const [chart, setChart] = useState([]);
-  const [selectedChartOption, setSelectedChartOption] = useState(null);
+  const [chartData, setChartData] = useState([]);
+  const [chart, setChart] = useState(props.defaultChart);
   function handleSelectChartChange(option) {
-    const difficulty = option.value;
-    setSelectedChartOption(difficulty);
-    setChart(songData.charts[difficulty])
+    const newChart = option.value;
+    setChart(newChart);
+    setChartData(songData.charts[newChart]);
+    writeUrlHash({ c: newChart });
   }
 
   useEffect(() => {
@@ -26,9 +28,10 @@ const Song = (props) => {
     const fetchData = async () => {
       try {
         const response = await fetch(url);
-        const json = await response.json();
-        console.log('Receieved', json);
-        setSongData(json);
+        const data = await response.json();
+        console.log('Receieved', data);
+        setSongData(data);
+        setChartData(data.charts[chart]);
       } catch (error) {
         console.log('error', error);
       }
@@ -37,7 +40,7 @@ const Song = (props) => {
     fetchData();
   }, [props.songUrl]);
 
-
+  // Each difficulty has a chart
   const chartOptions = Object.entries(songData.charts).map(([difficulty, chartData]) => {
     return { value: difficulty, label: difficulty }
   });
@@ -45,12 +48,12 @@ const Song = (props) => {
   return (
     <div>
       <Select
-        defaultValue={selectedChartOption}
+        defaultValue={{ label: props.defaultChart, value: props.defaultChart }}
         onChange={handleSelectChartChange}
         options={chartOptions}
       />
       <Chart
-        chartData={chart}
+        chartData={chartData}
       />
     </div>
   );

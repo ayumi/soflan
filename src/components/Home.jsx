@@ -2,17 +2,26 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 
 import Song from './Song';
+import { readUrlHash, writeUrlHash } from '../util'
 
 const Home = (props) => {
-  // FIXME: Currently dance-single is hardcoded
-  const [chartType, setChartType] = useState('dance-single');
+  const hashData = readUrlHash();
+  console.log('Loaded hash data', hashData);
+  const initialChartType = hashData['t'] || 'dance-single';
+  const initialSong = hashData['s'] || null;
+  const initialChart = hashData['c'] || 'Basic';
+  // Set this because we don't call setSongUrl() for the loaded value
+  const initialSongUrl = initialSong ? `/songs/${initialSong}--${initialChartType}.json` : null;
 
-  const [songUrl, setSongUrl] = useState(null);
-  const [selectedSongOption, setSelectedSongOption] = useState(null);
+  // FIXME: Currently dance-single is hardcoded
+  const [chartType, setChartType] = useState(initialChartType);
+  const [song, setSong] = useState(initialSong);
+  const [songUrl, setSongUrl] = useState(initialSongUrl);
   function handleSelectSongChange(option) {
-    const song = option.value;
-    setSelectedSongOption(song);
-    setSongUrl(`/songs/${song}--${chartType}.json`);
+    const newSong = option.value;
+    setSong(newSong);
+    setSongUrl(`/songs/${newSong}--${chartType}.json`);
+    writeUrlHash({ s: newSong });
   }
 
   const options = props.songs.map(song => {
@@ -23,12 +32,13 @@ const Home = (props) => {
   return (
     <div>
       <Select
-        defaultValue={selectedSongOption}
+        defaultValue={{ label: initialSong, value: initialSong }}
         onChange={handleSelectSongChange}
         options={options}
       />
       <Song
         songUrl={songUrl}
+        defaultChart={initialChart}
       />
     </div>
   );
