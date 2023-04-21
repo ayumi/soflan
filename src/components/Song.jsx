@@ -1,26 +1,36 @@
+// Logic for loading Song data and picking charts. Wraps the Chart viewer.
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
-import _ from 'lodash';
+
+import Chart from './Chart';
+
+const SONG_DATA_DEFAULT = { charts: [] };
 
 const Song = (props) => {
-  const [songData, setSongData] = useState(null);
+  const [songData, setSongData] = useState(SONG_DATA_DEFAULT);
+  const [chart, setChart] = useState([]);
+  const [selectedChartOption, setSelectedChartOption] = useState(null);
+  function handleSelectChartChange(option) {
+    const difficulty = option.value;
+    setSelectedChartOption(difficulty);
+    setChart(songData.charts[difficulty])
+  }
 
   useEffect(() => {
     const url = props.songUrl;
     if (url === null) {
-      console.log('songUrl null, returning');
       return
     }
-    console.log('fetching: ' + url);
+    console.log('Fetching song data: ' + url);
 
     const fetchData = async () => {
       try {
         const response = await fetch(url);
         const json = await response.json();
-        console.log(json);
+        console.log('Receieved', json);
         setSongData(json);
       } catch (error) {
-        console.log("error", error);
+        console.log('error', error);
       }
     };
 
@@ -28,14 +38,20 @@ const Song = (props) => {
   }, [props.songUrl]);
 
 
-  // props.song
-  // const options = _.map(props.songs, song => {
-  //   return { value: song, label: song }
-  // });
+  const chartOptions = Object.entries(songData.charts).map(([difficulty, chartData]) => {
+    return { value: difficulty, label: difficulty }
+  });
 
   return (
     <div>
-      {JSON.stringify(songData)}
+      <Select
+        defaultValue={selectedChartOption}
+        onChange={handleSelectChartChange}
+        options={chartOptions}
+      />
+      <Chart
+        chartData={chart}
+      />
     </div>
   );
 }
