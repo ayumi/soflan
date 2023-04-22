@@ -1,7 +1,12 @@
+.chart-measures {
+  display: inline-block;
+}
+
 .chart-measure {
-  display: block;
+  border-top: 0.1em #ccc solid;
   position: relative;
   height: 8em;
+  width: 6em;
 }
 
 .chart-measure:first-child:not(:has(.chart-event-note)) {
@@ -9,17 +14,39 @@
 }
 
 .chart-event {
-  display: block;
+  font-family: monospace;
+  /* This is absolute because events within have fractional offsets. */
   position: absolute;
-  /* height: 4em; */
+  width: 100%;
+}
+
+.chart-event-bpm {
+  border-top: 0.2em blue solid;
+}
+
+.chart-event-stop {
+  border-top: 0.2em red solid;
+}
+
+.event-combo,
+.event-notes,
+.event-extra {
+  display: inline-block;
 }
 
 .event-combo {
-  display: inline-block;
-  font-family: monospace;
   height: 1em;
   text-align: center;
   width: 2em;
+}
+
+.event-notes {
+  width: 4em;
+}
+
+.event-extra {
+  left: 6em;
+  position: absolute;
 }
 
 .event-note {
