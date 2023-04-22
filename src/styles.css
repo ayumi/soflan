@@ -4,14 +4,22 @@
   height: 8em;
 }
 
+.chart-measure:first-child:not(:has(.chart-event-note)) {
+  height: 1em;
+}
+
 .chart-event {
   display: block;
   position: absolute;
   /* height: 4em; */
 }
 
-.event-notes {
-  /* height: 4em; */
+.event-combo {
+  display: inline-block;
+  font-family: monospace;
+  height: 1em;
+  text-align: center;
+  width: 2em;
 }
 
 .event-note {
@@ -21,8 +29,24 @@
   width: 1em;
 }
 
-.note-val-1 {
-  background-image: url('assets/arrow-down.png');
+.note-val-1,
+.note-val-2 {
+  background-image: url('assets/arrow-note-down-green.png');
+}
+
+.chart-event-note-4 .note-val-1,
+.chart-event-note-4 .note-val-2 {
+  background-image: url('assets/arrow-note-down-red.png');
+}
+
+.chart-event-note-8 .note-val-1,
+.chart-event-note-8 .note-val-2 {
+  background-image: url('assets/arrow-note-down-blue.png');
+}
+
+.chart-event-note-16 .note-val-1,
+.chart-event-note-16 .note-val-2 {
+  background-image: url('assets/arrow-note-down-yellow.png');
 }
 
 .note-0 {
