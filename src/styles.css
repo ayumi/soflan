@@ -28,7 +28,7 @@
 }
 
 .guideline {
-  border-top: 0.05em #ddd solid;
+  border-top: 0.1em #ccc solid;
   z-index: -1;
 }
 
