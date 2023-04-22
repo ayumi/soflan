@@ -36,6 +36,7 @@ const Chart = (props) => {
               </span>
             </div>
           })}
+          <div className="chart-event guideline guideline-0"></div>
         </div>
       })}
     </div>

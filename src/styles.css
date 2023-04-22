@@ -3,7 +3,6 @@
 }
 
 .chart-measure {
-  border-top: 0.1em #ccc solid;
   position: relative;
   height: 8em;
   width: 6em;
@@ -26,6 +25,27 @@
 
 .chart-event-stop {
   border-top: 0.2em red solid;
+}
+
+.guideline {
+  border-top: 0.05em #ddd solid;
+  z-index: -1;
+}
+
+.guideline-0 {
+  top: 0;
+}
+
+.guideline-1 {
+  top: 25%;
+}
+
+.guideline-2 {
+  top: 50%;
+}
+
+.guideline-3 {
+  top: 75%;
 }
 
 .event-combo,
