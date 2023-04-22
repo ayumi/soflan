@@ -1,8 +1,10 @@
 // This function reads a simfile from a path and returns the converted simfile as a JS object.
 
-import _ from "lodash";
 import fs from "node:fs";
 import * as readline from "node:readline";
+
+// Event T values will be quantized to this
+const T_QUANT = 1 / 128;
 
 export default async function convertSimfile(path) {
   const fileStream = fs.createReadStream(path);
@@ -166,6 +168,13 @@ export default async function convertSimfile(path) {
           }
         }
         t += tPerLine;
+        // Round t to the the nearest 1/128.
+        if (t % T_QUANT !== 0) {
+          const numberOfQuantaOverT = (t - Math.floor(t) + 0.00001) / T_QUANT;
+          if (numberOfQuantaOverT - Math.floor(numberOfQuantaOverT) < 0.1) {
+            t = Math.floor(t) + Math.floor(numberOfQuantaOverT) * T_QUANT;
+          }
+        }
         addBpmEvents();
         addStopEvents();
       }

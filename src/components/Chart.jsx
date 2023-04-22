@@ -19,8 +19,13 @@ const Chart = (props) => {
               key={`chart-event-${index}`}
               style={{ top: `${100 * (event['t'] - Math.floor(event['t']))}%` }}
             >
-              {event['n'] ? '' : JSON.stringify(event)}
+              <span
+                className='event-combo'
+              >
+                {event['c']}
+              </span>
               {renderEventNotes(event)}
+              {event['n'] ? '' : JSON.stringify(event)}
             </div>
           })}
         </div>
@@ -39,6 +44,14 @@ function getEventClassName(event) {
   }
   if (event['n']) {
     name += ' chart-event-note';
+    const offset = event['t'] - Math.floor(event['t']);
+    if (offset === 0 || offset === 0.25 || offset === 0.5 || offset === 0.75) {
+      name += ' chart-event-note-4';
+    } else if (offset === 0.125 || offset === 0.375 || offset === 0.625 || offset === 0.875) {
+      name += ' chart-event-note-8';
+    } else if (offset === 0.0625 || offset === 0.1875 || offset === 0.3125 || offset === 0.4375 || offset === 0.5625 || offset === 0.6875 || offset === 0.8125 || offset === 0.9375) {
+      name += ' chart-event-note-16';
+    }
   }
   return name;
 }
@@ -53,23 +66,33 @@ function renderEventNotes(event) {
       key={`note-${i}`}
     ></span>);
   }
-  return (
-    <div
-      className='event-notes'
-    >
-      {buffer}
-    </div>
-  );
+  return buffer;
 }
 
 // Events all have a t value which is the time or measure number
 // This function groups events by measure for easier display
 // It adds empty measures where needed.
 function getMeasures(events) {
+  if (!events || events.length === 0) {
+    return []
+  }
+
+  let n = 0;
   let t = 0;
   const measures = [];
   let measureEvents = [];
-  for (const ev of events) {
+
+  // When the first 2 events are bpm, long pause, then notes, don't
+  // add empty measures for the long pause.
+  if (events.length >= 2 && events[0]['b'] && events[1]['n'] &&
+  events[1]['t'] >= events[0]['t'] + 1) {
+    measures.push({ t, events: [events[0]] });
+    n = 1;
+    t = events[1]['t'];
+  }
+
+  for (; n < events.length; n++) {
+    const ev = events[n];
     // We reached the next measure
     if (ev.t >= t + 1) {
       // Finalize the next measure with all buffered events
@@ -77,10 +100,10 @@ function getMeasures(events) {
       measureEvents = [];
       t++;
 
-      // If needed, fill out empty measures
+      // Fill out empty measures.
       const extraMeasures = Math.floor(ev.t - t);
-      for (let n = 0; n < extraMeasures; n++) {
-        measures.push({ t: t + n, events: []});
+      for (let n2 = 0; n2 < extraMeasures; n2++) {
+        measures.push({ t: t + n2, events: []});
       }
       t += extraMeasures;
     }
