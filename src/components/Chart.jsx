@@ -24,8 +24,16 @@ const Chart = (props) => {
               >
                 {event['c']}
               </span>
-              {renderEventNotes(event)}
-              {event['n'] ? '' : JSON.stringify(event)}
+              <span
+                className='event-notes'
+              >
+                {renderEventNotes(event)}
+              </span>
+              <span
+                className='event-extra'
+              >
+                {renderEventExtra(event)}
+              </span>
             </div>
           })}
         </div>
@@ -67,6 +75,33 @@ function renderEventNotes(event) {
     ></span>);
   }
   return buffer;
+}
+
+function renderEventExtra(event) {
+  if (event['n']) {
+    return null;
+  } else if (event['b']) {
+    return (<span
+      className='event-bpm'
+    >
+      {event['b']} BPM
+    </span>);
+  } else if (event['s']) {
+    return (<span
+      className='event-stop'
+    >
+      Stop {event['s']}s
+    </span>);
+  } else {
+    const shortEvent = { ...event };
+    delete shortEvent['c'];
+    delete shortEvent['t'];
+    return (<span
+      className='event-unknown'
+    >
+      {JSON.stringify(shortEvent)}
+    </span>);
+  }
 }
 
 // Events all have a t value which is the time or measure number
