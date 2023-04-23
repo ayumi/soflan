@@ -5,7 +5,7 @@
 .chart-beat {
   position: relative;
   height: 2em;
-  width: 6em;
+  width: 8em;
 }
 
 .chart-beat:first-child:not(:has(.chart-event-note)) {
@@ -20,17 +20,18 @@
 }
 
 .chart-event-bpm {
-  border-top: 0.2em blue solid;
+  background: linear-gradient(0.5turn, cyan, cyan) no-repeat center/100% 0.2em;
   z-index: -1;
 }
 
 .chart-event-stop {
-  border-top: 0.2em red solid;
+  background: linear-gradient(0.5turn, red, red) no-repeat center/100% 0.2em;
   z-index: -1;
 }
 
 .chart-beat-mod-0 {
-  border-top: 0.1em #ccc solid;
+  background: linear-gradient(0.5turn, #ccc, #ccc) no-repeat center/100% 0.1em;
+  background-position-y: 20%;
   z-index: -1;
 }
 
@@ -50,6 +51,14 @@
 .event-combo-mod-10,
 .chart-beat:last-child .event-combo {
   color: #000;
+}
+
+.event-bpm-bpm-label {
+  font-size: 0.8em;
+}
+
+.event-stop-beat-label {
+  font-size: 0.8em;
 }
 
 .event-notes {
