@@ -1,6 +1,9 @@
 // For viewing 1 specific Chart (e.g. ACE FOR ACES ESP 15)
 import React from 'react';
 
+// Stop beat values will be quantized to this
+const T_QUANT = 1 / 32;
+
 const Chart = (props) => {
   const chartData = props.chartData || {};
   const events = chartData.events || [];
@@ -84,13 +87,15 @@ function renderEventExtra(event) {
     return (<span
       className='event-bpm'
     >
-      {event['b']} BPM
+      {event['b']}
+      <span class='event-bpm-bpm-label'>BPM</span>
     </span>);
   } else if (event['s']) {
     return (<span
       className='event-stop'
     >
-      {event['s']}s
+      {event['s']}
+      <span class='event-stop-beat-label'>Beat</span>
     </span>);
   } else {
     const shortEvent = { ...event };
@@ -113,6 +118,8 @@ function getBeats(events) {
 
   let n = 0;
   let t = 0;
+  let bpm = events[0]['b'];
+  let secondsPerBeat = 60 / bpm;
   const beats = [];
   let beatEvents = [];
 
@@ -140,6 +147,17 @@ function getBeats(events) {
         beats.push({ t: t + n2, events: []});
       }
       t += extraBeats;
+    }
+
+    // Convert stops from seconds to beats
+    if (ev['b']) {
+      bpm = ev['b'];
+      secondsPerBeat = 60 / bpm;
+    }
+    if (ev['s']) {
+      ev['s'] = ev['s'] / secondsPerBeat;
+      // Round to the the nearest 1/32 beat.
+      ev['s'] = Math.round(ev['s'] * 32) / 32;
     }
 
     // Buffer events into the current beat
