@@ -6,6 +6,7 @@
 import { glob } from "glob";
 import { writeFile } from "node:fs/promises";
 import path from 'path';
+import normalizePath from 'normalize-path';
 import knex from "knex";
 import knexfile from "../knexfile.js";
 import convertSimfile from "./convert-simfile.js";
@@ -26,7 +27,7 @@ if (!folder) {
 
 let files;
 try {
-  files = await glob(folder + '/**/*.+(sm|ssc)', {});
+  files = await glob(normalizePath(folder) + '/**/*.+(sm|ssc)', {});
 } catch (e) {
   logAndExit(e);
 }
