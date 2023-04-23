@@ -171,6 +171,7 @@ export default async function convertSimfile(path) {
         }
         t += tPerLine;
         // Round t to the the nearest 1/128.
+        // TODO: Fix this to just use Math.round
         if (t % T_QUANT !== 0) {
           const numberOfQuantaOverT = (t - Math.floor(t) + 0.00001) / T_QUANT;
           if (numberOfQuantaOverT - Math.floor(numberOfQuantaOverT) < 0.1) {
