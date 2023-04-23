@@ -83,6 +83,7 @@ export default async function convertSimfile(path) {
 
   // Turning events by beat to by combo
   const addBpmEvents = () => {
+    // console.log('chartBpmNext', chartBpmNext, 't', t);
     if (chartBpmNext && t >= chartBpmNext[0]) {
       const bpm = {
         t: chartBpmNext[0],
@@ -95,6 +96,7 @@ export default async function convertSimfile(path) {
     }
   };
   const addStopEvents = () => {
+    // console.log('chartStopNext', chartStopNext, 't', t);
     if (chartStopNext && t >= chartStopNext[0]) {
       const stop = {
         t: chartStopNext[0],
@@ -147,8 +149,8 @@ export default async function convertSimfile(path) {
 
       // Comma ends a measure in a NOTES, semicolon can as well.
     } else if (line === "," || line === ";") {
-      const nextWholeT = t + 1;
-      const tPerLine = 1 / measureLines.length;
+      const nextMeasureT = t + 4;
+      const tPerLine = 4 / measureLines.length;
       for (const mLine of measureLines) {
         // Only add events if arrows are present (nonzero)
         if (mLine.split("").some((s) => s !== "0")) {
@@ -178,7 +180,7 @@ export default async function convertSimfile(path) {
         addBpmEvents();
         addStopEvents();
       }
-      t = nextWholeT;
+      t = nextMeasureT;
       addBpmEvents();
       addStopEvents();
       measureLines = [];

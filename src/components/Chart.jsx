@@ -6,21 +6,21 @@ const Chart = (props) => {
   const events = chartData.events || [];
   return (
     <div
-      className='chart-measures'
+      className='chart-beats'
     >
-      {getMeasures(events).map((measure, index) => {
+      {getBeats(events).map((beat, index) => {
         return <div
-          className='chart-measure'
-          key={`chart-measure-${index}`}
+          className={`chart-beat chart-beat-mod-${index % 4}`}
+          key={`chart-beat-${index}`}
         >
-          {measure.events.map((event, index) => {
+          {beat.events.map((event, index) => {
             return <div
               className={getEventClassName(event)}
               key={`chart-event-${index}`}
               style={{ top: `${100 * (event['t'] - Math.floor(event['t']))}%` }}
             >
               <span
-                className='event-combo'
+                className={`event-combo ${event['c'] % 10 === 0 ? 'event-combo-mod-10' : ''}`}
               >
                 {event['c']}
               </span>
@@ -36,7 +36,6 @@ const Chart = (props) => {
               </span>
             </div>
           })}
-          <div className="chart-event guideline guideline-0"></div>
         </div>
       })}
     </div>
@@ -54,11 +53,11 @@ function getEventClassName(event) {
   if (event['n']) {
     name += ' chart-event-note';
     const offset = event['t'] - Math.floor(event['t']);
-    if (offset === 0 || offset === 0.25 || offset === 0.5 || offset === 0.75) {
+    if (offset === 0) {
       name += ' chart-event-note-4';
-    } else if (offset === 0.125 || offset === 0.375 || offset === 0.625 || offset === 0.875) {
+    } else if (offset === 0.5) {
       name += ' chart-event-note-8';
-    } else if (offset === 0.0625 || offset === 0.1875 || offset === 0.3125 || offset === 0.4375 || offset === 0.5625 || offset === 0.6875 || offset === 0.8125 || offset === 0.9375) {
+    } else if (offset === 0.25 || offset === 0.75) {
       name += ' chart-event-note-16';
     }
   }
@@ -91,7 +90,7 @@ function renderEventExtra(event) {
     return (<span
       className='event-stop'
     >
-      Stop {event['s']}s
+      {event['s']}s
     </span>);
   } else {
     const shortEvent = { ...event };
@@ -105,53 +104,52 @@ function renderEventExtra(event) {
   }
 }
 
-// Events all have a t value which is the time or measure number
-// This function groups events by measure for easier display
-// It adds empty measures where needed.
-function getMeasures(events) {
+// Events all have a t value which is the beat number
+// This function adds empty beats where needed.
+function getBeats(events) {
   if (!events || events.length === 0) {
     return []
   }
 
   let n = 0;
   let t = 0;
-  const measures = [];
-  let measureEvents = [];
+  const beats = [];
+  let beatEvents = [];
 
   // When the first 2 events are bpm, long pause, then notes, don't
-  // add empty measures for the long pause.
+  // add empty beats for the long pause.
   if (events.length >= 2 && events[0]['b'] && events[1]['n'] &&
   events[1]['t'] >= events[0]['t'] + 1) {
-    measures.push({ t, events: [events[0]] });
+    beats.push({ t, events: [events[0]] });
     n = 1;
     t = events[1]['t'];
   }
 
   for (; n < events.length; n++) {
     const ev = events[n];
-    // We reached the next measure
+    // We reached the next beat
     if (ev.t >= t + 1) {
-      // Finalize the next measure with all buffered events
-      measures.push({ t, events: measureEvents });
-      measureEvents = [];
+      // Finalize the next beat with all buffered events
+      beats.push({ t, events: beatEvents });
+      beatEvents = [];
       t++;
 
-      // Fill out empty measures.
-      const extraMeasures = Math.floor(ev.t - t);
-      for (let n2 = 0; n2 < extraMeasures; n2++) {
-        measures.push({ t: t + n2, events: []});
+      // Fill out empty beats.
+      const extraBeats = Math.floor(ev.t - t);
+      for (let n2 = 0; n2 < extraBeats; n2++) {
+        beats.push({ t: t + n2, events: []});
       }
-      t += extraMeasures;
+      t += extraBeats;
     }
 
-    // Buffer events into the current measure
-    measureEvents.push(ev);
+    // Buffer events into the current beat
+    beatEvents.push(ev);
   }
-  // Last measure
-  measures.push({ t, events: measureEvents });
-  console.log(measures);
-  window.measures = measures;
-  return measures;
+  // Last beat
+  beats.push({ t, events: beatEvents });
+  console.log(beats);
+  window.beats = beats;
+  return beats;
 }
 
 export default Chart
