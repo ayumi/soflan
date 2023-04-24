@@ -11,6 +11,9 @@ const Chart = (props) => {
     <div
       className='chart'
     >
+      <div className='chart-bpms'>
+        {renderBpms(chartData.bpms)}
+      </div>
       <div className='chart-stops'>
         {renderStops(chartData.stops)}
       </div>
@@ -108,7 +111,7 @@ function renderEventExtra(event) {
     return (<span
       className='event-bpm'
     >
-      {event['b']}
+      {Math.round(event['b'])}
       <span className='event-bpm-bpm-label'>BPM</span>
     </span>);
   } else if (event['s']) {
@@ -131,11 +134,19 @@ function renderEventExtra(event) {
 }
 
 function renderStops(stops) {
-  if (!stops) { return []; }
+  if (!stops || stops.length === 0) { return []; }
 
   const result = [];
-  const stopsStr = stops.map(stop => stop['c']).join(', ');
-  return 'Stops: ' + stopsStr;
+  const str = stops.map(stop => stop['c']).join(', ');
+  return 'Stops: ' + str;
+}
+
+function renderBpms(bpms) {
+  if (!bpms || bpms.length === 0) { return []; }
+
+  const result = [];
+  const str = bpms.map(bpms => Math.round(bpms['b'])).join(', ');
+  return 'BPM: ' + str;
 }
 
 // Events all have a t value which is the beat number

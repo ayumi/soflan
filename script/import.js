@@ -36,7 +36,18 @@ let n = 0;
 const connection = knex(knexfile);
 for (const file of files) {
   console.log(`Importing ${file}`)
-  const song = await convertSimfile(file);
+  let song;
+  try {
+    song = await convertSimfile(file);
+  } catch (e) {
+    console.warn(`Failed to import ${file}`, e);
+    continue;
+  }
+  
+  // HACK FIXME: Remove illegal filename chars
+  song.title = song.title.replace(/[/\\?%*:|"<>]/g, '-');
+  song.artist = song.artist.replace(/[/\\?%*:|"<>]/g, '-');
+
   try {
     const result = await connection("songs")
       .insert({

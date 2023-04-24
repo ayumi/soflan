@@ -196,7 +196,8 @@ export default async function convertSimfile(path) {
     // Semicolon ends NOTES and a chart
     if (line === ";") {
       if (!notesActive) {
-        logAndExit("Semicolon ; while not in NOTES.", line);
+        console.warn("Semicolon ; while not in NOTES.", line);
+        continue;
       }
 
       // Handle SM format
@@ -245,7 +246,8 @@ export default async function convertSimfile(path) {
 
     // Old fashioned parsing
     if (line.slice(0, 1) !== "#" && line.slice(-1) !== ";") {
-      logAndExit("Malformed line; should start with # and end with ;", line);
+      console.warn("Malformed line; should start with # and end with ;", line);
+      continue;
     }
     const lineParts = line.slice(1, -1).split(":");
     const [key, value] = lineParts;
