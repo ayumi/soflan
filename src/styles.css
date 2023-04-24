@@ -114,3 +114,23 @@
 .note-3 {
   transform: rotate(0.75turn);
 }
+
+.note-val-3 {
+  transform: none;
+}
+
+.note-val-3.note-0 {
+  background-image: url('assets/hold-left-tail.png');
+}
+
+.note-val-3.note-1 {
+  background-image: url('assets/hold-down-tail.png');
+}
+
+.note-val-3.note-2 {
+  background-image: url('assets/hold-up-tail.png');
+}
+
+.note-val-3.note-3 {
+  background-image: url('assets/hold-right-tail.png');
+}
