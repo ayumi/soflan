@@ -28,21 +28,22 @@ const Home = (props) => {
     return { value: song, label: song }
   });
 
-  const [hash, setHash] = useHash();
-  React.useEffect(() => {
-    console.log('aaaaaa');
-    const hashData = readUrlHash();
-    const newChartType = hashData['t'] || 'dance-single';
-    const newSong = hashData['s'] || null;
-    const newChart = hashData['c'] || null;
-    // Set this because we don't call setSongUrl() for the loaded value
-    const newSongUrl = newSong ? `/songs/${newSong}--${newChartType}.json` : null;
-    setSong(newSong);
-    setChartType(newChart);
-    // FIXME: When u press back button the hash changes but then the chart does not change??? why
-    // FIXME also: this ewffect seems to call even when we're changing it, not when pressing back button..
-    setSongUrl(newSongUrl);
-  }, [hash]);
+  // TODO
+  // const [hash, setHash] = useHash();
+  // React.useEffect(() => {
+  //   console.log('aaaaaa');
+  //   const hashData = readUrlHash();
+  //   const newChartType = hashData['t'] || 'dance-single';
+  //   const newSong = hashData['s'] || null;
+  //   const newChart = hashData['c'] || null;
+  //   // Set this because we don't call setSongUrl() for the loaded value
+  //   const newSongUrl = newSong ? `/songs/${newSong}--${newChartType}.json` : null;
+  //   setSong(newSong);
+  //   setChartType(newChart);
+  //   // FIXME: When u press back button the hash changes but then the chart does not change??? why
+  //   // FIXME also: this ewffect seems to call even when we're changing it, not when pressing back button..
+  //   setSongUrl(newSongUrl);
+  // }, [hash]);
 
   return (
     <div>
