@@ -6,7 +6,8 @@
   "scripts": {
     "import": "node script/import.js",
     "sql": "sqlite3 db/dev.sqlite3",
-    "start": "webpack serve --mode development"
+    "start": "webpack serve --mode development",
+    "build": "NODE_ENV=production && webpack"
   },
   "type": "module",
   "devDependencies": {
