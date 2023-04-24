@@ -1,8 +1,54 @@
-.chart-beats {
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.select-song {
+  font-size: 2vh;
+  height: 8vh;
+  min-height: 3em;
+  position: fixed;
+  width: 100%;
+}
+
+.select-song .react-select__control {
+  height: 8vh;
+}
+
+.select-chart {
   display: inline-block;
+  height: 4vh;
+  min-height: 3em;
+  width: 8em;
+}
+
+.select-chart .react-select__control {
+  font-size: 2vh;
+  width: 100%;
+}
+
+.song {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 8vh;
+}
+
+.chart-beats {
+  height: calc(100vh - 16vh);
+  /* overflow-x: scroll;
+  white-space: nowrap;
+  width: 100%; */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  /* width: 100%; */
 }
 
 .chart-beat {
+  display: inline-block;
   position: relative;
   height: 2em;
   width: 8em;
@@ -28,6 +74,16 @@
 .chart-event-stop {
   background: linear-gradient(0.5turn, red, red) no-repeat 40%/45% 0.2em;
   background-position-y: 55%;
+  z-index: -1;
+}
+
+/* .chart-event-hold */
+.chart-event-hold .event-note {
+  height: 100%;
+}
+
+.chart-event-hold .event-note {
+  top: 0.5em;
   z-index: -1;
 }
 
@@ -80,6 +136,7 @@
   background-size: 100%;
   display: inline-block;
   height: 1em;
+  position: relative;
   width: 1em;
 }
 
@@ -115,7 +172,8 @@
   transform: rotate(0.75turn);
 }
 
-.note-val-3 {
+.note-val-3,
+.note-val-h {
   transform: none;
 }
 
@@ -133,4 +191,24 @@
 
 .note-val-3.note-3 {
   background-image: url('assets/hold-right-tail.png');
+}
+
+.note-val-h.note-0 {
+  background-image: url('assets/hold-left-body.png');
+}
+
+.note-val-h.note-1 {
+  background-image: url('assets/hold-down-body.png');
+}
+
+.note-val-h.note-2 {
+  background-image: url('assets/hold-up-body.png');
+}
+
+.note-val-h.note-3 {
+  background-image: url('assets/hold-right-body.png');
+}
+
+.stop-combo {
+  margin: 0 0.1em;
 }

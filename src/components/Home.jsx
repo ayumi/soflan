@@ -48,6 +48,8 @@ const Home = (props) => {
   return (
     <div>
       <Select
+        className='select-song'
+        classNamePrefix='react-select'
         defaultValue={{ label: initialSong, value: initialSong }}
         onChange={handleSelectSongChange}
         options={options}
