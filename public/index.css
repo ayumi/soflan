@@ -85,22 +85,22 @@
 
 .note-val-1,
 .note-val-2 {
-  background-image: url('assets/arrow-note-down-green.png');
+  background-image: url(assets/911cd94439164787f334.png);
 }
 
 .chart-event-note-4 .note-val-1,
 .chart-event-note-4 .note-val-2 {
-  background-image: url('assets/arrow-note-down-red.png');
+  background-image: url(assets/8a09a4213099ce9c3cd0.png);
 }
 
 .chart-event-note-8 .note-val-1,
 .chart-event-note-8 .note-val-2 {
-  background-image: url('assets/arrow-note-down-blue.png');
+  background-image: url(assets/2fd1b65f3d2d3fffbfcd.png);
 }
 
 .chart-event-note-16 .note-val-1,
 .chart-event-note-16 .note-val-2 {
-  background-image: url('assets/arrow-note-down-yellow.png');
+  background-image: url(assets/ccecc4533f68e3362e8b.png);
 }
 
 .note-0 {
@@ -114,3 +114,4 @@
 .note-3 {
   transform: rotate(0.75turn);
 }
+

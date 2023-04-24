@@ -88,14 +88,14 @@ function renderEventExtra(event) {
       className='event-bpm'
     >
       {event['b']}
-      <span class='event-bpm-bpm-label'>BPM</span>
+      <span className='event-bpm-bpm-label'>BPM</span>
     </span>);
   } else if (event['s']) {
     return (<span
       className='event-stop'
     >
       {event['s']}
-      <span class='event-stop-beat-label'>Beat</span>
+      <span className='event-stop-beat-label'>Beat</span>
     </span>);
   } else {
     const shortEvent = { ...event };
