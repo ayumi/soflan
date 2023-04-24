@@ -53,7 +53,7 @@ const Song = (props) => {
       const chartNames = Object.keys(songData['charts']);
       const newChart = chartNames[chartNames.length - 1];
       setChart(newChart);
-      selectChartRef.current.setValue({ value: newChart, label: newChart });
+      selectChartRef.current.setValue({ value: newChart, label: `${newChart} ${songData['charts'][newChart]['level']}` });
       setChartData(songData['charts'][newChart]);
       writeUrlHash({ c: newChart });
     }
@@ -61,12 +61,14 @@ const Song = (props) => {
 
   // Each difficulty has a chart
   const chartOptions = Object.entries(songData.charts).map(([difficulty, chartData]) => {
-    return { value: difficulty, label: difficulty }
+    return { value: difficulty, label: `${difficulty} ${songData.charts[difficulty]['level']}` }
   });
 
   return (
-    <div>
+    <div className='song'>
       <Select
+        className='select-chart'
+        classNamePrefix='react-select'
         defaultValue={{ label: props.defaultChart, value: props.defaultChart }}
         onChange={handleSelectChartChange}
         options={chartOptions}
