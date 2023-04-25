@@ -79,6 +79,7 @@ body {
 
 /* .chart-event-hold */
 .chart-event-hold .event-note {
+  background-repeat-y: repeat;
   height: 100%;
 }
 
@@ -134,6 +135,7 @@ body {
 
 .event-note {
   background-size: 100%;
+  background-position: center;
   display: inline-block;
   height: 1em;
   position: relative;
@@ -173,6 +175,7 @@ body {
 }
 
 .note-val-3,
+.note-val-M,
 .note-val-h {
   transform: none;
 }
@@ -207,6 +210,22 @@ body {
 
 .note-val-h.note-3 {
   background-image: url('assets/hold-right-body.png');
+}
+
+.note-val-M.note-0 {
+  background-image: url('assets/arrow-shock-left.png');
+}
+
+.note-val-M.note-1 {
+  background-image: url('assets/arrow-shock-down.png');
+}
+
+.note-val-M.note-2 {
+  background-image: url('assets/arrow-shock-up.png');
+}
+
+.note-val-M.note-3 {
+  background-image: url('assets/arrow-shock-right.png');
 }
 
 .stop-combo {
