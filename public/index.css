@@ -79,6 +79,7 @@ body {
 
 /* .chart-event-hold */
 .chart-event-hold .event-note {
+  background-repeat-y: repeat;
   height: 100%;
 }
 
@@ -134,6 +135,7 @@ body {
 
 .event-note {
   background-size: 100%;
+  background-position: center;
   display: inline-block;
   height: 1em;
   position: relative;
@@ -173,40 +175,57 @@ body {
 }
 
 .note-val-3,
+.note-val-M,
 .note-val-h {
   transform: none;
 }
 
 .note-val-3.note-0 {
-  background-image: url(assets/0f229df423d66ddd741c.png);
+  background-image: url(assets/e677f5c8c8dc1c186a4d.png);
 }
 
 .note-val-3.note-1 {
-  background-image: url(assets/feb6dad6d3a25549d34d.png);
+  background-image: url(assets/39a499ce8037e81b25ab.png);
 }
 
 .note-val-3.note-2 {
-  background-image: url(assets/fac2f7fb387bf14ba4bf.png);
+  background-image: url(assets/ec22aef6805e48a96dc3.png);
 }
 
 .note-val-3.note-3 {
-  background-image: url(assets/a2c64fe4a97705d42ca3.png);
+  background-image: url(assets/c28c299c1d897257f235.png);
 }
 
 .note-val-h.note-0 {
-  background-image: url(assets/42560b9dc77141b18f6f.png);
+  background-image: url(assets/bf2b9f06cc09f02c1268.png);
 }
 
 .note-val-h.note-1 {
-  background-image: url(assets/a50ff08696c54b1cba77.png);
+  background-image: url(assets/9aa441fcc114fcab688b.png);
 }
 
 .note-val-h.note-2 {
-  background-image: url(assets/6ee0f39bf2d9f7edb12e.png);
+  background-image: url(assets/a0e3bf35306cd911d37e.png);
 }
 
 .note-val-h.note-3 {
-  background-image: url(assets/a3499fce145e42b733e4.png);
+  background-image: url(assets/8ab42e0d236e2bda2f4a.png);
+}
+
+.note-val-M.note-0 {
+  background-image: url(assets/32f8eda426d3ce860f44.png);
+}
+
+.note-val-M.note-1 {
+  background-image: url(assets/4fcdf296afa06ef71354.png);
+}
+
+.note-val-M.note-2 {
+  background-image: url(assets/428fbf3342a48927e1b3.png);
+}
+
+.note-val-M.note-3 {
+  background-image: url(assets/a37684388f4f637a94d9.png);
 }
 
 .stop-combo {
