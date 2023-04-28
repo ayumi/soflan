@@ -3,48 +3,91 @@ body {
   padding: 0;
 }
 
+  /* Dropdown caret */
+.select-song .react-select__indicator,
+.select-chart .react-select__indicator,
+.select-song .react-select__indicator-separator,
+.select-chart .react-select__indicator-separator {
+  display: none;
+  /* padding: 0; */
+}
+
+.select-song .react-select__value-container,
+.select-chart .react-select__value-container {
+  padding: 0 0 0 2px;
+}
+
+.select-song .react-select__option,
+.select-chart .react-select__option {
+  padding: 8px 0 8px 5px;
+}
+
+.select-song .react-select__single-value,
+.select-chart .react-select__single-value {
+  text-overflow: clip;
+}
+
 .select-song {
-  font-size: 2vh;
-  height: 8vh;
-  min-height: 3em;
-  position: fixed;
-  width: 100%;
+  /* left: 0;
+  top: 0;
+  right: 0;
+  position: fixed !important;
+  width: 100%; */
 }
 
 .select-song .react-select__control {
-  height: 8vh;
-}
-
-.select-chart {
-  display: inline-block;
-  height: 4vh;
-  min-height: 3em;
-  width: 8em;
-}
-
-.select-chart .react-select__control {
-  font-size: 2vh;
-  width: 100%;
 }
 
 .song {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 8vh;
 }
 
-.chart-beats {
-  height: calc(100vh - 16vh);
-  /* overflow-x: scroll;
+.song-meta {
+  display: table-row;
+}
+
+.select-chart,
+.summary-spacer,
+.bpm-summary,
+.stop-summary,
+.bpm-graph {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.select-chart {
+  padding-right: 3px;
+  width: 16%;
+}
+
+.bpm-summary,
+.stop-summary {
+  font-family: monospace;
   white-space: nowrap;
-  width: 100%; */
+}
+
+.bpm-summary {
+  width: 0;
+}
+
+.stop-summary {
+  padding: 0 2px 0 2px;
+  width: 0;
+}
+
+.stop-summary .stop-label {
+  letter-spacing: -1;
+}
+
+.bpm-graph {
+}
+
+.chart {
+  height: calc(100vh - 5em);
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   overflow-x: auto;
-  /* width: 100%; */
+  padding-top: 3px;
 }
 
 .chart-beat {
@@ -116,11 +159,8 @@ body {
   font-size: 1em;
 }
 
-.event-bpm-bpm-label {
-  font-size: 0.8em;
-}
-
-.event-stop-beat-label {
+.bpm-label,
+.stop-label {
   font-size: 0.8em;
 }
 

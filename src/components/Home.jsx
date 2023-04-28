@@ -5,7 +5,6 @@ import Song from './Song';
 import { readUrlHash, useHash, writeUrlHash } from '../util'
 
 const Home = (props) => {
-
   const hashData = readUrlHash();
   const initialChartType = hashData['t'] || 'dance-single';
   const initialSong = hashData['s'] || null;
@@ -28,7 +27,7 @@ const Home = (props) => {
     return { value: song, label: song }
   });
 
-  // TODO
+  // TODO Back/Forward
   // const [hash, setHash] = useHash();
   // React.useEffect(() => {
   //   console.log('aaaaaa');
@@ -55,6 +54,7 @@ const Home = (props) => {
         options={options}
       />
       <Song
+        chartType={chartType}
         songUrl={songUrl}
         defaultChart={initialChart}
       />
