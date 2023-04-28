@@ -10,6 +10,7 @@ const Chart = (props) => {
   return (
     <div
       className='chart'
+      onScroll={props.handleChartScroll}
     >
       {getBeats(events).map((beat, index) => {
         return <div
