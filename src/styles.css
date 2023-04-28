@@ -81,7 +81,8 @@ body {
 
 .bpm-graph canvas {
   height: 2em;
-  width: 100%;
+  /* width: 100%; */
+  /* width: 500px; */
 }
 
 .chart {
