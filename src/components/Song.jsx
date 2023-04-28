@@ -178,27 +178,43 @@ function renderBpmSummary(bpmLow, bpmHigh) {
 
 function getBpmGraphData(chartData) {
   // Add a point with the max combo so the graph is drawn fully to the right
+  const firstBpm = chartData.bpms[0]['b'];
   const lastNoteBpm = {
     x: chartData.events[chartData.events.length - 1]['c'],
     y: chartData.bpms[chartData.bpms.length - 1]['b'],
-   }
+  }
   return {
     datasets: [
       {
         id: 1,
         label: '',
         data: chartData.bpms.map(bpm => ({ x: bpm['c'], y: bpm['b'] })).concat([lastNoteBpm]),
-        borderColor: 'magenta',
+        borderColor: 'blue',
         borderWidth: 1,
         stepped: true,
         pointStyle: false,
         showLine: true,
+      },
+      {
+        id: 2,
+        label: 'stops',
+        data: chartData.stops.map(stop => ({ x: stop['c'], y: firstBpm })),
+        borderColor: 'magenta',
+        elements: {
+          point: {
+            pointStyle: 'line',
+            radius: 50,
+            rotation: 90,
+          }
+        }
       },
     ],
   };
 }
 
 function getBpmGraphDataOptions(bpmLow, bpmHigh, maxCombo) {
+  const yMin = bpmLow === bpmHigh ? (bpmLow - 1) : bpmLow;
+  const yMax = bpmLow === bpmHigh ? (bpmHigh + 1) : bpmHigh;
   return {
     animation: false,
     maintainAspectRatio: false,
@@ -225,8 +241,8 @@ function getBpmGraphDataOptions(bpmLow, bpmHigh, maxCombo) {
       y: {
         beginAtZero: true,
         display: false,
-        min: bpmLow,
-        max: bpmHigh,
+        min: yMin,
+        max: yMax,
         ticks: { display: false },
       },
     }

@@ -70,9 +70,17 @@ body {
   width: 0;
 }
 
+.bpm-summary .bpm-value {
+  color: blue;
+}
+
 .stop-summary {
   padding: 0 3px;
   width: 0;
+}
+
+.stop-summary .stop-value {
+  color: magenta;
 }
 
 .stop-summary .stop-label {
@@ -113,13 +121,13 @@ body {
 }
 
 .chart-event-bpm {
-  background: linear-gradient(0.5turn, cyan, cyan) no-repeat 40%/45% 0.2em;
+  background: linear-gradient(0.5turn, blue, blue) no-repeat 40%/45% 0.2em;
   background-position-y: 55%;
   z-index: -1;
 }
 
 .chart-event-stop {
-  background: linear-gradient(0.5turn, red, red) no-repeat 40%/45% 0.2em;
+  background: linear-gradient(0.5turn, magenta, magenta) no-repeat 40%/45% 0.2em;
   background-position-y: 55%;
   z-index: -1;
 }
@@ -171,6 +179,15 @@ body {
 .stop-label {
   font-size: 0.8em;
 }
+
+.event-bpm {
+  color: blue;
+}
+
+.event-stop {
+  color: magenta;
+}
+
 
 .event-notes {
   width: 6em;
