@@ -20,7 +20,7 @@ ChartJS.register(
 );
 
 import Chart from './Chart';
-import { writeUrlHash } from '../util'
+import { debounce, writeUrlHash } from '../util'
 
 const SONG_DATA_DEFAULT = { charts: [] };
 const DIFFICULTY_LABELS = {
@@ -44,6 +44,10 @@ const Song = (props) => {
   const [songData, setSongData] = useState(SONG_DATA_DEFAULT);
   const [chartData, setChartData] = useState([]);
   const [chart, setChart] = useState(props.defaultChart);
+  let bpmGraphViewportLeft, bpmGraphViewportRight;
+  // const [bpmGraphViewportLeft, setBpmGraphViewportLeft] = useState(0);
+  // const [bpmGraphViewportRight, setBpmGraphViewportRight] = useState(0);
+  const chartRef = useRef();
   const bpmGraphRef = useRef();
   const selectChartRef = useRef();
   function handleSelectChartChange(option) {
@@ -96,13 +100,27 @@ const Song = (props) => {
     }
   }, [songData]);
 
-  useEffect(() => {
-    const bpmGraphEl = bpmGraphRef.current;
-    if (bpmGraphEl) {
-      console.log('CanvasRenderingContext2D', bpmGraphEl.ctx);
-      console.log('HTMLCanvasElement', bpmGraphEl.canvas);
+  function handleChartViewportChange({ left, right }) {
+    bpmGraphViewportLeft = (100 * left).toFixed(3);
+
+    bpmGraphViewportRight = (100 * (1 - right)).toFixed(3);
+
+    // setBpmGraphViewportLeft((100 * left).toFixed(3));
+    // setBpmGraphViewportRight((100 * (1 - right)).toFixed(3));
+  }
+
+  function onClickBpmGraph(e) {
+    if (chartRef.current) {
+      chartRef.current.setViewport(e.x / bpmGraphRef.current.width);
     }
-  }, [chartData]);
+  }
+
+  // simulate scrolling when mouse over the graph
+  const onDragBpmGraph = debounce(function onDragBpmGraphRaw(e) {
+    if (chartRef.current) {
+      chartRef.current.setViewport(e.x / bpmGraphRef.current.width);
+    }
+  }, 40);
 
   // Each difficulty has a chart
   const chartOptions = Object.entries(songData.charts).map(([difficulty, chartData]) => {
@@ -129,10 +147,17 @@ const Song = (props) => {
         {renderStopSummary(chartData.stops)}
         <div className='summary-spacer'></div>
         <div className='bpm-graph'>
+          {bpmGraphViewportLeft !== bpmGraphViewportRight ? (
+            <div
+              className='bpm-graph-viewport'
+              style={{ 'left': `${bpmGraphViewportLeft}%`, 'right': `${bpmGraphViewportRight}%` }}
+            >
+            </div>
+          ) : null}
           {chartData.bpms ? (
             <ScatterChart
-              data={getBpmGraphData(chartData, bpmLow, bpmHigh)}
-              options={getBpmGraphDataOptions(chartData, bpmLow, bpmHigh)}
+              data={getBpmGraphData({ chartData, bpmLow, bpmHigh })}
+              options={getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh, onClick: onClickBpmGraph })}
               ref={bpmGraphRef}
             />
           ) : null}
@@ -140,7 +165,8 @@ const Song = (props) => {
       </div>
       <Chart
         chartData={chartData}
-        handleChartScroll={handleChartScroll}
+        onViewportChange={handleChartViewportChange}
+        // ref={chartRef}
       />
     </div>
   );
@@ -187,7 +213,7 @@ function renderBpmSummary(bpmLow, bpmHigh) {
   </div>);
 }
 
-function getBpmGraphData(chartData, bpmLow, bpmHigh) {
+function getBpmGraphData({ chartData, bpmLow, bpmHigh }) {
   // Add a point with the max T so the graph is drawn fully to the right
   const stopBpm = (bpmLow + bpmHigh)/2;
   const firstBpm = chartData.bpms[0]['b'];
@@ -225,7 +251,7 @@ function getBpmGraphData(chartData, bpmLow, bpmHigh) {
   };
 }
 
-function getBpmGraphDataOptions(chartData, bpmLow, bpmHigh) {
+function getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh, onClick }) {
   const maxT = chartData.events[chartData.events.length - 1]['t'];
   const yMin = bpmLow === bpmHigh ? (bpmLow - 1) : bpmLow;
   const yMax = bpmLow === bpmHigh ? (bpmHigh + 1) : bpmHigh;
@@ -260,6 +286,7 @@ function getBpmGraphDataOptions(chartData, bpmLow, bpmHigh) {
         ticks: { display: false },
       },
     },
+    onClick,
     plugins: {
       tooltip: {
         callbacks: {
@@ -272,10 +299,6 @@ function getBpmGraphDataOptions(chartData, bpmLow, bpmHigh) {
       }
     }
   }
-}
-
-function handleChartScroll(event) {
-  console.log(handleChartScroll, event);
 }
 
 export default Song
