@@ -1,16 +1,45 @@
 // For viewing 1 specific Chart (e.g. ACE FOR ACES ESP 15)
-import React from 'react';
+import React, { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import { debounce } from '../util'
 
 // Stop beat values will be quantized to this
 const T_QUANT = 1 / 32;
 
-const Chart = (props) => {
+const Chart = (props, ref) => {
   const chartData = props.chartData || {};
   const events = chartData.events || [];
+  const mainRef = useRef();
+
+  // const setViewport = (x) => {
+  //   if (!mainRef.current) { return }
+  //
+  //   const el = mainRef.current;
+  //   el.scrollLeft = x * el.scrollWidth - el.clientWidth / 2;
+  // };
+  // useImperativeHandle(ref, () => ({ setViewport }));
+
+  // Take chart scrolling and convert to T_start and T_end % for Song.jsx to
+  // render onto the BPM graph
+  function handleViewportChange() {
+    if (typeof props.onViewportChange !== 'function') { return }
+
+    const el = mainRef.current;
+    const left = el.scrollLeft / el.scrollWidth;
+    const right = (el.scrollLeft + el.clientWidth) / el.scrollWidth;
+    props.onViewportChange({ left, right });
+  }
+
+  const handleViewportChangeDelayed = debounce(handleViewportChange, 30);
+
+  useEffect(() => {
+    handleViewportChange();
+  }, [props.chartData])
+
   return (
     <div
       className='chart'
-      onScroll={props.handleChartScroll}
+      onScroll={handleViewportChangeDelayed}
+      ref={mainRef}
     >
       {getBeats(events).map((beat, index) => {
         return <div
@@ -252,4 +281,5 @@ function getHoldEvents(holdStarts, holdEnds) {
   return events;
 }
 
-export default Chart
+// export default forwardRef(Chart);
+export default Chart;
