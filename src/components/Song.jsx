@@ -139,7 +139,7 @@ function renderBpmSummary(bpms) {
   return (<div className='bpm-summary'>
     <div className='bpm-label'>BPM</div>
     <div className='bpm-value'>
-      {Math.round(bpmLow)}{bpmHigh !== bpmLow ? `-${Math.round(bpmHigh)}` : ''}
+      {Math.round(bpmLow)}{bpmHigh !== bpmLow ? `—${Math.round(bpmHigh)}` : ''}
     </div>
   </div>);
 }
