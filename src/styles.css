@@ -16,6 +16,14 @@ body {
   padding: 0 2px;
 }
 
+.select-song .react-select__control,
+.select-chart .react-select__control,
+.select-song .react-select__control:hover,
+.select-chart .react-select__control:hover  {
+  border-color: hsl(0, 0%, 80%);
+  box-shadow: none;
+}
+
 .select-song .react-select__option,
 .select-chart .react-select__option {
   padding: 8px 0 8px 5px;

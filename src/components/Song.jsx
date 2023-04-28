@@ -122,8 +122,8 @@ const Song = (props) => {
         <div className='bpm-graph'>
           {chartData.bpms ? (
             <ScatterChart
-              data={getBpmGraphData(chartData)}
-              options={getBpmGraphDataOptions(bpmLow, bpmHigh, chartData.combo)}
+              data={getBpmGraphData(chartData, bpmLow, bpmHigh)}
+              options={getBpmGraphDataOptions(chartData, bpmLow, bpmHigh)}
             />
           ) : null}
         </div>
@@ -176,19 +176,20 @@ function renderBpmSummary(bpmLow, bpmHigh) {
   </div>);
 }
 
-function getBpmGraphData(chartData) {
-  // Add a point with the max combo so the graph is drawn fully to the right
+function getBpmGraphData(chartData, bpmLow, bpmHigh) {
+  // Add a point with the max T so the graph is drawn fully to the right
+  const stopBpm = (bpmLow + bpmHigh)/2;
   const firstBpm = chartData.bpms[0]['b'];
   const lastNoteBpm = {
-    x: chartData.events[chartData.events.length - 1]['c'],
+    x: chartData.events[chartData.events.length - 1]['t'],
     y: chartData.bpms[chartData.bpms.length - 1]['b'],
   }
   return {
     datasets: [
       {
         id: 1,
-        label: '',
-        data: chartData.bpms.map(bpm => ({ x: bpm['c'], y: bpm['b'] })).concat([lastNoteBpm]),
+        label: 'BPM',
+        data: chartData.bpms.map(bpm => ({ x: bpm['t'], y: bpm['b'], c: bpm['c'] })).concat([lastNoteBpm]),
         borderColor: 'blue',
         borderWidth: 1,
         stepped: true,
@@ -197,13 +198,14 @@ function getBpmGraphData(chartData) {
       },
       {
         id: 2,
-        label: 'stops',
-        data: chartData.stops.map(stop => ({ x: stop['c'], y: firstBpm })),
+        label: 'Stop',
+        data: chartData.stops.map(stop => ({ x: stop['t'], y: stopBpm, c: stop['c'] })),
         borderColor: 'magenta',
         elements: {
           point: {
+            pointHoverRadius: 20,
             pointStyle: 'line',
-            radius: 50,
+            radius: 20,
             rotation: 90,
           }
         }
@@ -212,7 +214,8 @@ function getBpmGraphData(chartData) {
   };
 }
 
-function getBpmGraphDataOptions(bpmLow, bpmHigh, maxCombo) {
+function getBpmGraphDataOptions(chartData, bpmLow, bpmHigh) {
+  const maxT = chartData.events[chartData.events.length - 1]['t'];
   const yMin = bpmLow === bpmHigh ? (bpmLow - 1) : bpmLow;
   const yMax = bpmLow === bpmHigh ? (bpmHigh + 1) : bpmHigh;
   return {
@@ -229,7 +232,7 @@ function getBpmGraphDataOptions(bpmLow, bpmHigh, maxCombo) {
       x: {
         beginAtZero: true,
         min: 0,
-        max: maxCombo,
+        max: maxT,
         grid: {
           tickLength: 1,
         },
@@ -245,6 +248,17 @@ function getBpmGraphDataOptions(bpmLow, bpmHigh, maxCombo) {
         max: yMax,
         ticks: { display: false },
       },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            return context.dataset.label === 'Stop'
+              ? `Stop @ ${context.raw['c']}`
+              : `${Math.round(context.raw.y)} BPM @ ${context.raw['c']}`;
+          }
+        }
+      }
     }
   }
 }
