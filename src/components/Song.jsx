@@ -1,6 +1,23 @@
 // Logic for loading Song data and picking charts. Wraps the Chart viewer.
 import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip
+);
 
 import Chart from './Chart';
 import { writeUrlHash } from '../util'
@@ -101,6 +118,23 @@ const Song = (props) => {
         {renderStopSummary(chartData.stops)}
         <div className='summary-spacer'></div>
         <div className='bpm-graph'>
+          {chartData.bpms ? (
+            <Line
+              data={getBpmGraphData(chartData.bpms)}
+              options={{
+                maintainAspectRatio: false,
+                responsive: true,
+                scales: {
+                  x: {
+                    display: false,
+                  },
+                  y: {
+                    display: false,
+                  },
+                }
+              }}
+            />
+          ) : null}
         </div>
       </div>
       <Chart
@@ -142,6 +176,26 @@ function renderBpmSummary(bpms) {
       {Math.round(bpmLow)}{bpmHigh !== bpmLow ? `—${Math.round(bpmHigh)}` : ''}
     </div>
   </div>);
+}
+
+function getBpmGraphData(bpms) {
+  const res = bpms.map(bpm => ({ x: bpm['c'], y: bpm['b'] }));
+  console.log(res);
+  return {
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: bpms.map(bpm => ({ x: bpm['c'], y: bpm['b'] })),
+        borderColor: 'magenta',
+        borderWidth: 2,
+        fill: false,
+        stepped: true,
+        pointStyle: false,
+      },
+    ],
+  };
+  return bpms
+  // bpms.map(bpm => [{ c: bpm['c'], bpm: bpm['b'] }])
 }
 
 export default Song

@@ -48,6 +48,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["normalize-path", "npm:3.0.0"],\
             ["prettier", "npm:2.8.7"],\
             ["react", "npm:18.2.0"],\
+            ["react-chartjs-2", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:5.2.0"],\
             ["react-dom", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:18.2.0"],\
             ["react-select", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:5.7.2"],\
             ["regenerator-runtime", "npm:0.13.11"],\
@@ -7023,6 +7024,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-chartjs-2", [\
+        ["npm:5.2.0", {\
+          "packageLocation": "./.yarn/cache/react-chartjs-2-npm-5.2.0-03632f5179-ace702185b.zip/node_modules/react-chartjs-2/",\
+          "packageDependencies": [\
+            ["react-chartjs-2", "npm:5.2.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:5.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-chartjs-2-virtual-c60a85efa4/0/cache/react-chartjs-2-npm-5.2.0-03632f5179-ace702185b.zip/node_modules/react-chartjs-2/",\
+          "packageDependencies": [\
+            ["react-chartjs-2", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:5.2.0"],\
+            ["@types/chart.js", null],\
+            ["@types/react", null],\
+            ["chart.js", "npm:4.2.1"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/chart.js",\
+            "@types/react",\
+            "chart.js",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-dom", [\
         ["npm:18.2.0", {\
           "packageLocation": "./.yarn/cache/react-dom-npm-18.2.0-dd675bca1c-7d323310be.zip/node_modules/react-dom/",\
@@ -7683,6 +7710,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["normalize-path", "npm:3.0.0"],\
             ["prettier", "npm:2.8.7"],\
             ["react", "npm:18.2.0"],\
+            ["react-chartjs-2", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:5.2.0"],\
             ["react-dom", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:18.2.0"],\
             ["react-select", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:5.7.2"],\
             ["regenerator-runtime", "npm:0.13.11"],\

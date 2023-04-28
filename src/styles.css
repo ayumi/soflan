@@ -41,7 +41,9 @@ body {
 }
 
 .song-meta {
-  display: table-row;
+  /* display: table-row; */
+  display: table;
+  width: 100%;
 }
 
 .select-chart,
@@ -77,7 +79,9 @@ body {
   letter-spacing: -1;
 }
 
-.bpm-graph {
+.bpm-graph canvas {
+  height: 2em;
+  width: 100%;
 }
 
 .chart {
