@@ -44,6 +44,7 @@ const Song = (props) => {
   const [songData, setSongData] = useState(SONG_DATA_DEFAULT);
   const [chartData, setChartData] = useState([]);
   const [chart, setChart] = useState(props.defaultChart);
+  const bpmGraphRef = useRef();
   const selectChartRef = useRef();
   function handleSelectChartChange(option) {
     const newChart = option.value;
@@ -95,6 +96,14 @@ const Song = (props) => {
     }
   }, [songData]);
 
+  useEffect(() => {
+    const bpmGraphEl = bpmGraphRef.current;
+    if (bpmGraphEl) {
+      console.log('CanvasRenderingContext2D', bpmGraphEl.ctx);
+      console.log('HTMLCanvasElement', bpmGraphEl.canvas);
+    }
+  }, [chartData]);
+
   // Each difficulty has a chart
   const chartOptions = Object.entries(songData.charts).map(([difficulty, chartData]) => {
     return {
@@ -124,12 +133,14 @@ const Song = (props) => {
             <ScatterChart
               data={getBpmGraphData(chartData, bpmLow, bpmHigh)}
               options={getBpmGraphDataOptions(chartData, bpmLow, bpmHigh)}
+              ref={bpmGraphRef}
             />
           ) : null}
         </div>
       </div>
       <Chart
         chartData={chartData}
+        handleChartScroll={handleChartScroll}
       />
     </div>
   );
@@ -261,6 +272,10 @@ function getBpmGraphDataOptions(chartData, bpmLow, bpmHigh) {
       }
     }
   }
+}
+
+function handleChartScroll(event) {
+  console.log(handleChartScroll, event);
 }
 
 export default Song
