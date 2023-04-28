@@ -10,13 +10,13 @@ const Chart = (props, ref) => {
   const events = chartData.events || [];
   const mainRef = useRef();
 
-  // const setViewport = (x) => {
-  //   if (!mainRef.current) { return }
-  //
-  //   const el = mainRef.current;
-  //   el.scrollLeft = x * el.scrollWidth - el.clientWidth / 2;
-  // };
-  // useImperativeHandle(ref, () => ({ setViewport }));
+  const setViewport = (x) => {
+    if (!mainRef.current) { return }
+
+    const el = mainRef.current;
+    el.scrollLeft = x * el.scrollWidth - el.clientWidth / 2;
+  };
+  useImperativeHandle(ref, () => ({ setViewport }));
 
   // Take chart scrolling and convert to T_start and T_end % for Song.jsx to
   // render onto the BPM graph
@@ -134,11 +134,11 @@ function renderEventExtra(event) {
       {Math.round(event['b'])}
       <span className='bpm-label'>BPM</span>
     </span>);
-  } else if (event['s']) {
+  } else if (event['sBeat']) {
     return (<span
       className='event-stop'
     >
-      {event['s']}
+      {event['sBeat']}
       <span className='stop-label'>Beat</span>
     </span>);
   } else {
@@ -218,9 +218,9 @@ function getBeats(events) {
       secondsPerBeat = 60 / bpm;
     }
     if (ev['s']) {
-      ev['s'] = ev['s'] / secondsPerBeat;
+      ev['sBeat'] = ev['s'] / secondsPerBeat;
       // Round to the the nearest 1/32 beat.
-      ev['s'] = Math.round(ev['s'] * 32) / 32;
+      ev['sBeat'] = Math.round(ev['sBeat'] * 32) / 32;
     }
 
     // Buffer events into the current beat
@@ -233,28 +233,19 @@ function getBeats(events) {
         if (ev['n'][i] === '2') {
           holdStarts[i] = ev['t'];
           holdsChanged = true;
-          // console.log(t, 'set hold', i);
         } else if (ev['n'][i] === '3') {
           // Emit hold event with t start and tEnd
-          // console.log(t, 'emit hold event with start and end');
           beatEvents = beatEvents.concat(
             getHoldEvents({ [i]: holdStarts[i] }, { [i]: ev['t'] })
           );
           delete holdStarts[i];
           holdsChanged = true;
-          // console.log(t, 'unset hold', i);
         }
       }
-      // if (holdsChanged) {
-      //   console.log(t, 'holdsChanged');
-      //   beatEvents = beatEvents.concat(getHoldEvents(holdStarts));
-      // }
     }
   }
   // Last beat
   beats.push({ t, events: beatEvents });
-  // console.log(beats);
-  window.beats = beats;
   return beats;
 }
 
@@ -272,14 +263,11 @@ function getHoldEvents(holdStarts, holdEnds) {
     data[noteIndex] = 'h';
     const event = { t: tHoldStart, h: data.join('') };
     if (holdEnds && holdEnds[noteIndex]) {
-      // console.log('adding tEnd');
       event['tEnd'] = holdEnds[noteIndex];
     }
-    // console.log('event', JSON.stringify(event));
     events.push(event);
   });
   return events;
 }
 
-// export default forwardRef(Chart);
-export default Chart;
+export default forwardRef(Chart);

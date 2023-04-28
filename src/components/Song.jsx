@@ -44,9 +44,8 @@ const Song = (props) => {
   const [songData, setSongData] = useState(SONG_DATA_DEFAULT);
   const [chartData, setChartData] = useState([]);
   const [chart, setChart] = useState(props.defaultChart);
-  let bpmGraphViewportLeft, bpmGraphViewportRight;
-  // const [bpmGraphViewportLeft, setBpmGraphViewportLeft] = useState(0);
-  // const [bpmGraphViewportRight, setBpmGraphViewportRight] = useState(0);
+  const [bpmGraphViewportLeft, setBpmGraphViewportLeft] = useState(0);
+  const [bpmGraphViewportRight, setBpmGraphViewportRight] = useState(0);
   const chartRef = useRef();
   const bpmGraphRef = useRef();
   const selectChartRef = useRef();
@@ -101,12 +100,8 @@ const Song = (props) => {
   }, [songData]);
 
   function handleChartViewportChange({ left, right }) {
-    bpmGraphViewportLeft = (100 * left).toFixed(3);
-
-    bpmGraphViewportRight = (100 * (1 - right)).toFixed(3);
-
-    // setBpmGraphViewportLeft((100 * left).toFixed(3));
-    // setBpmGraphViewportRight((100 * (1 - right)).toFixed(3));
+    setBpmGraphViewportLeft((100 * left).toFixed(3));
+    setBpmGraphViewportRight((100 * (1 - right)).toFixed(3));
   }
 
   function onClickBpmGraph(e) {
@@ -115,12 +110,19 @@ const Song = (props) => {
     }
   }
 
-  // simulate scrolling when mouse over the graph
-  const onDragBpmGraph = debounce(function onDragBpmGraphRaw(e) {
+  // Simulate scrolling when mousing over the graph with any buttons held
+  function onBpmGraphMouse(e) {
+    if (e.buttons === 0) { return; }
+
     if (chartRef.current) {
-      chartRef.current.setViewport(e.x / bpmGraphRef.current.width);
+      const elRect = e.target.getBoundingClientRect();
+      const x = e.clientX - elRect.left;
+      chartRef.current.setViewport(x / bpmGraphRef.current.width);
     }
-  }, 40);
+  }
+
+  // Debounce when moving for performance
+  const onBpmGraphMouseDebounced = debounce(onBpmGraphMouse, 10);
 
   // Each difficulty has a chart
   const chartOptions = Object.entries(songData.charts).map(([difficulty, chartData]) => {
@@ -146,7 +148,11 @@ const Song = (props) => {
         {renderBpmSummary(bpmLow, bpmHigh)}
         {renderStopSummary(chartData.stops)}
         <div className='summary-spacer'></div>
-        <div className='bpm-graph'>
+        <div
+          className='bpm-graph'
+          onMouseDown={onBpmGraphMouse}
+          onMouseMove={onBpmGraphMouseDebounced}
+        >
           {bpmGraphViewportLeft !== bpmGraphViewportRight ? (
             <div
               className='bpm-graph-viewport'
@@ -166,7 +172,7 @@ const Song = (props) => {
       <Chart
         chartData={chartData}
         onViewportChange={handleChartViewportChange}
-        // ref={chartRef}
+        ref={chartRef}
       />
     </div>
   );
