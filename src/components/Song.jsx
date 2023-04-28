@@ -1,7 +1,7 @@
 // Logic for loading Song data and picking charts. Wraps the Chart viewer.
 import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
-import { Line } from 'react-chartjs-2';
+import { Scatter as ScatterChart } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -103,6 +103,8 @@ const Song = (props) => {
     }
   });
 
+  const [bpmLow, bpmHigh] = getBpmLowAndHigh(chartData);
+
   return (
     <div className='song'>
       <div className='song-meta'>
@@ -114,25 +116,14 @@ const Song = (props) => {
           options={chartOptions}
           ref={selectChartRef}
         />
-        {renderBpmSummary(chartData.bpms)}
+        {renderBpmSummary(bpmLow, bpmHigh)}
         {renderStopSummary(chartData.stops)}
         <div className='summary-spacer'></div>
         <div className='bpm-graph'>
           {chartData.bpms ? (
-            <Line
-              data={getBpmGraphData(chartData.bpms)}
-              options={{
-                maintainAspectRatio: false,
-                responsive: true,
-                scales: {
-                  x: {
-                    display: false,
-                  },
-                  y: {
-                    display: false,
-                  },
-                }
-              }}
+            <ScatterChart
+              data={getBpmGraphData(chartData)}
+              options={getBpmGraphDataOptions(bpmLow, bpmHigh, chartData.combo)}
             />
           ) : null}
         </div>
@@ -148,17 +139,9 @@ function getDifficultyLabel(difficulty, chartType) {
   return DIFFICULTY_LABELS[chartType][difficulty] || difficulty;
 }
 
-function renderStopSummary(stops) {
-  if (!stops || stops.length === 0) { return []; }
-
-  return (<div className='stop-summary'>
-    <div className='stop-label'>Stops</div>
-    <div className='stop-value'>{stops.length}</div>
-  </div>);
-}
-
-function renderBpmSummary(bpms) {
-  if (!bpms || bpms.length === 0) { return []; }
+function getBpmLowAndHigh(chartData) {
+  const bpms = chartData.bpms;
+  if (!bpms || bpms.length === 0) { return [0, 0]; }
 
   let bpmLow = bpms[0]['b'];
   let bpmHigh = bpms[0]['b'];
@@ -170,6 +153,21 @@ function renderBpmSummary(bpms) {
       bpmHigh = bpms[n]['b'];
     }
   }
+  return [bpmLow, bpmHigh]
+}
+
+function renderStopSummary(stops) {
+  if (!stops || stops.length === 0) { return []; }
+
+  return (<div className='stop-summary'>
+    <div className='stop-label'>Stops</div>
+    <div className='stop-value'>{stops.length}</div>
+  </div>);
+}
+
+function renderBpmSummary(bpmLow, bpmHigh) {
+  if (!bpmLow && !bpmHigh) { return []; }
+
   return (<div className='bpm-summary'>
     <div className='bpm-label'>BPM</div>
     <div className='bpm-value'>
@@ -178,24 +176,61 @@ function renderBpmSummary(bpms) {
   </div>);
 }
 
-function getBpmGraphData(bpms) {
-  const res = bpms.map(bpm => ({ x: bpm['c'], y: bpm['b'] }));
-  console.log(res);
+function getBpmGraphData(chartData) {
+  // Add a point with the max combo so the graph is drawn fully to the right
+  const lastNoteBpm = {
+    x: chartData.events[chartData.events.length - 1]['c'],
+    y: chartData.bpms[chartData.bpms.length - 1]['b'],
+   }
   return {
     datasets: [
       {
-        label: 'Dataset 1',
-        data: bpms.map(bpm => ({ x: bpm['c'], y: bpm['b'] })),
+        id: 1,
+        label: '',
+        data: chartData.bpms.map(bpm => ({ x: bpm['c'], y: bpm['b'] })).concat([lastNoteBpm]),
         borderColor: 'magenta',
-        borderWidth: 2,
-        fill: false,
+        borderWidth: 1,
         stepped: true,
         pointStyle: false,
+        showLine: true,
       },
     ],
   };
-  return bpms
-  // bpms.map(bpm => [{ c: bpm['c'], bpm: bpm['b'] }])
+}
+
+function getBpmGraphDataOptions(bpmLow, bpmHigh, maxCombo) {
+  return {
+    animation: false,
+    maintainAspectRatio: false,
+    responsive: true,
+    layout: {
+      autoPadding: false,
+      padding: {
+        right: 5,
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        min: 0,
+        max: maxCombo,
+        grid: {
+          tickLength: 1,
+        },
+        ticks: {
+          display: false,
+          stepSize: 100,
+        },
+      },
+      y: {
+        beginAtZero: true,
+        display: false,
+        min: bpmLow,
+        max: bpmHigh,
+        ticks: { display: false },
+      },
+    }
+  }
 }
 
 export default Song
