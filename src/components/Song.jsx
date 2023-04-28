@@ -20,7 +20,7 @@ ChartJS.register(
 );
 
 import Chart from './Chart';
-import { debounce, writeUrlHash } from '../util'
+import { writeUrlHash } from '../util'
 
 const SONG_DATA_DEFAULT = { charts: [] };
 const DIFFICULTY_LABELS = {
@@ -104,12 +104,6 @@ const Song = (props) => {
     setBpmGraphViewportRight((100 * (1 - right)).toFixed(3));
   }
 
-  function onClickBpmGraph(e) {
-    if (chartRef.current) {
-      chartRef.current.setViewport(e.x / bpmGraphRef.current.width);
-    }
-  }
-
   // Simulate scrolling when mousing over the graph with any buttons held
   function onBpmGraphMouse(e) {
     if (e.buttons === 0) { return; }
@@ -120,9 +114,6 @@ const Song = (props) => {
       chartRef.current.setViewport(x / bpmGraphRef.current.width);
     }
   }
-
-  // Debounce when moving for performance
-  const onBpmGraphMouseDebounced = debounce(onBpmGraphMouse, 10);
 
   // Each difficulty has a chart
   const chartOptions = Object.entries(songData.charts).map(([difficulty, chartData]) => {
@@ -151,7 +142,7 @@ const Song = (props) => {
         <div
           className='bpm-graph'
           onMouseDown={onBpmGraphMouse}
-          onMouseMove={onBpmGraphMouseDebounced}
+          onMouseMove={onBpmGraphMouse}
         >
           {bpmGraphViewportLeft !== bpmGraphViewportRight ? (
             <div
@@ -163,7 +154,7 @@ const Song = (props) => {
           {chartData.bpms ? (
             <ScatterChart
               data={getBpmGraphData({ chartData, bpmLow, bpmHigh })}
-              options={getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh, onClick: onClickBpmGraph })}
+              options={getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh })}
               ref={bpmGraphRef}
             />
           ) : null}
@@ -257,7 +248,7 @@ function getBpmGraphData({ chartData, bpmLow, bpmHigh }) {
   };
 }
 
-function getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh, onClick }) {
+function getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh }) {
   const maxT = chartData.events[chartData.events.length - 1]['t'];
   const yMin = bpmLow === bpmHigh ? (bpmLow - 1) : bpmLow;
   const yMax = bpmLow === bpmHigh ? (bpmHigh + 1) : bpmHigh;
@@ -292,7 +283,6 @@ function getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh, onClick }) {
         ticks: { display: false },
       },
     },
-    onClick,
     plugins: {
       tooltip: {
         callbacks: {
