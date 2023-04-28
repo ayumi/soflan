@@ -11,46 +11,36 @@ const Chart = (props) => {
     <div
       className='chart'
     >
-      <div className='chart-bpms'>
-        {renderBpms(chartData.bpms)}
-      </div>
-      <div className='chart-stops'>
-        {renderStops(chartData.stops)}
-      </div>
-      <div
-        className='chart-beats'
-      >
-        {getBeats(events).map((beat, index) => {
-          return <div
-            className={`chart-beat chart-beat-mod-${index % 4}`}
-            key={`chart-beat-${index}`}
-          >
-            {beat.events.map((event, index) => {
-              return <div
-                className={getEventClassName(event)}
-                key={`chart-event-${index}`}
-                style={getEventStyle(event)}
+      {getBeats(events).map((beat, index) => {
+        return <div
+          className={`chart-beat chart-beat-mod-${index % 4}`}
+          key={`chart-beat-${index}`}
+        >
+          {beat.events.map((event, index) => {
+            return <div
+              className={getEventClassName(event)}
+              key={`chart-event-${index}`}
+              style={getEventStyle(event)}
+            >
+              <span
+                className={`event-combo ${event['c'] % 10 === 0 ? 'event-combo-mod-10' : ''}`}
               >
-                <span
-                  className={`event-combo ${event['c'] % 10 === 0 ? 'event-combo-mod-10' : ''}`}
-                >
-                  {event['c']}
-                </span>
-                <span
-                  className='event-notes'
-                >
-                  {renderEventNotes(event)}
-                </span>
-                <span
-                  className='event-extra'
-                >
-                  {renderEventExtra(event)}
-                </span>
-              </div>
-            })}
-          </div>
-        })}
-      </div>
+                {event['c']}
+              </span>
+              <span
+                className='event-notes'
+              >
+                {renderEventNotes(event)}
+              </span>
+              <span
+                className='event-extra'
+              >
+                {renderEventExtra(event)}
+              </span>
+            </div>
+          })}
+        </div>
+      })}
     </div>
   );
 }
@@ -112,14 +102,14 @@ function renderEventExtra(event) {
       className='event-bpm'
     >
       {Math.round(event['b'])}
-      <span className='event-bpm-bpm-label'>BPM</span>
+      <span className='bpm-label'>BPM</span>
     </span>);
   } else if (event['s']) {
     return (<span
       className='event-stop'
     >
       {event['s']}
-      <span className='event-stop-beat-label'>Beat</span>
+      <span className='stop-label'>Beat</span>
     </span>);
   } else {
     const shortEvent = { ...event };
@@ -131,22 +121,6 @@ function renderEventExtra(event) {
       {JSON.stringify(shortEvent)}
     </span>);
   }
-}
-
-function renderStops(stops) {
-  if (!stops || stops.length === 0) { return []; }
-
-  const result = [];
-  const str = stops.map(stop => stop['c']).join(', ');
-  return 'Stops: ' + str;
-}
-
-function renderBpms(bpms) {
-  if (!bpms || bpms.length === 0) { return []; }
-
-  const result = [];
-  const str = bpms.map(bpms => Math.round(bpms['b'])).join(', ');
-  return 'BPM: ' + str;
 }
 
 // Events all have a t value which is the beat number

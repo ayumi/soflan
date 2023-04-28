@@ -39,6 +39,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-react", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:7.16.7"],\
             ["@babel/runtime", "npm:7.21.0"],\
             ["babel-loader", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:9.1.2"],\
+            ["chart.js", "npm:4.2.1"],\
             ["core-js", "npm:3.30.1"],\
             ["css-loader", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:6.7.3"],\
             ["glob", "npm:10.2.1"],\
@@ -2741,6 +2742,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@kurkle/color", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/cache/@kurkle-color-npm-0.3.2-98f2086013-79e97b31f8.zip/node_modules/@kurkle/color/",\
+          "packageDependencies": [\
+            ["@kurkle/color", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@leichtgewicht/ip-codec", [\
         ["npm:2.0.4", {\
           "packageLocation": "./.yarn/cache/@leichtgewicht-ip-codec-npm-2.0.4-dd4d657af8-468de1f04d.zip/node_modules/@leichtgewicht/ip-codec/",\
@@ -4018,6 +4028,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ansi-styles", "npm:3.2.1"],\
             ["escape-string-regexp", "npm:1.0.5"],\
             ["supports-color", "npm:5.5.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["chart.js", [\
+        ["npm:4.2.1", {\
+          "packageLocation": "./.yarn/cache/chart.js-npm-4.2.1-97512b9a29-7319fdfd1e.zip/node_modules/chart.js/",\
+          "packageDependencies": [\
+            ["chart.js", "npm:4.2.1"],\
+            ["@kurkle/color", "npm:0.3.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7654,6 +7674,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-react", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:7.16.7"],\
             ["@babel/runtime", "npm:7.21.0"],\
             ["babel-loader", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:9.1.2"],\
+            ["chart.js", "npm:4.2.1"],\
             ["core-js", "npm:3.30.1"],\
             ["css-loader", "virtual:bed53dcc4b16e9943e1b4a7c20c06c9f597ca3a934ee4ea8a5d9c93cfc1b8b129e0a24c24fea725b041ad5b0696f3d08203d4c19663163bc5c42f12edcff1454#npm:6.7.3"],\
             ["glob", "npm:10.2.1"],\
