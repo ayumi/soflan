@@ -9,12 +9,11 @@ body {
 .select-song .react-select__indicator-separator,
 .select-chart .react-select__indicator-separator {
   display: none;
-  /* padding: 0; */
 }
 
 .select-song .react-select__value-container,
 .select-chart .react-select__value-container {
-  padding: 0 0 0 2px;
+  padding: 0 2px;
 }
 
 .select-song .react-select__option,
@@ -70,7 +69,7 @@ body {
 }
 
 .stop-summary {
-  padding: 0 2px 0 2px;
+  padding: 0 3px;
   width: 0;
 }
 
@@ -82,7 +81,7 @@ body {
 }
 
 .chart {
-  height: calc(100vh - 5em);
+  height: calc(100vh - 6em);
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -93,8 +92,8 @@ body {
 .chart-beat {
   display: inline-block;
   position: relative;
-  height: 2em;
-  width: 8em;
+  height: 3em;
+  width: 10em;
 }
 
 .chart-beat:first-child:not(:has(.chart-event-note)) {
@@ -120,7 +119,10 @@ body {
   z-index: -1;
 }
 
-/* .chart-event-hold */
+.chart-event-hold-tail .event-combo {
+  color: transparent;
+}
+
 .chart-event-hold .event-note {
   background-repeat-y: repeat;
   height: 100%;
@@ -141,14 +143,15 @@ body {
 .event-notes,
 .event-extra {
   display: inline-block;
-  line-height: 1em;
+  line-height: 1.5em;
   padding: 0 0.1em;
   vertical-align: middle;
 }
 
 .event-combo {
   color: #ccc;
-  height: 1em;
+  height: 1.5em;
+  line-height: 1.5em;
   text-align: right;
   width: 2em;
 }
@@ -165,11 +168,11 @@ body {
 }
 
 .event-notes {
-  width: 4em;
+  width: 6em;
 }
 
 .event-extra {
-  left: 6.5em;
+  left: 8.5em;
   position: absolute;
 }
 
@@ -177,9 +180,9 @@ body {
   background-size: 100%;
   background-position: center;
   display: inline-block;
-  height: 1em;
+  height: 1.5em;
   position: relative;
-  width: 1em;
+  width: 1.5em;
 }
 
 .note-val-1,
