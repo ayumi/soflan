@@ -33,6 +33,7 @@ try {
 }
 
 let n = 0;
+let failedFiles = [];
 const connection = knex(knexfile);
 for (const file of files) {
   console.log(`Importing ${file}`)
@@ -41,9 +42,10 @@ for (const file of files) {
     song = await convertSimfile(file);
   } catch (e) {
     console.warn(`Failed to import ${file}`, e);
+    failedFiles.push(file);
     continue;
   }
-  
+
   // HACK FIXME: Remove illegal filename chars
   song.title = song.title.replace(/[/\\?%*:|"<>]/g, '-');
   song.artist = song.artist.replace(/[/\\?%*:|"<>]/g, '-');
@@ -104,6 +106,7 @@ try {
       title: "title",
       artist: "artist",
     })
+    .orderBy("created_at", "desc")
   for (const { title, artist } of result) {
     songList.push(`${title} - ${artist}`);
   }
@@ -111,6 +114,11 @@ try {
 
 } catch (e) {
   logAndExit(e);
+}
+
+if (failedFiles.length > 0) {
+  console.warn(`Failed to import ${failedFiles.length} files:`);
+  console.log(failedFiles);
 }
 
 console.log(`Done, ${n} imported, ${songList.length} total`);
