@@ -26,10 +26,11 @@ const Chart = (props, ref) => {
     const el = mainRef.current;
     const left = el.scrollLeft / el.scrollWidth;
     const right = (el.scrollLeft + el.clientWidth) / el.scrollWidth;
-    props.onViewportChange({ left, right });
+    props.onViewportChange(left, right);
   }
 
-  const handleViewportChangeDelayed = debounce(handleViewportChange, 30);
+  // TODO: Is this needed?
+  // const handleViewportChangeDelayed = debounce(handleViewportChange, 30);
 
   useEffect(() => {
     handleViewportChange();
@@ -38,7 +39,7 @@ const Chart = (props, ref) => {
   return (
     <div
       className='chart'
-      onScroll={handleViewportChangeDelayed}
+      onScroll={handleViewportChange}
       ref={mainRef}
     >
       {getBeats(events).map((beat, index) => {
