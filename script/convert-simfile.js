@@ -110,9 +110,9 @@ export default async function convertSimfile(path) {
   };
 
   // Helper for aborting
-  const logAndExit = (message, line) => {
+  const logAndExit = (message, line, n) => {
     console.error(`Error: ${message}`);
-    console.debug(`line: ${line}`);
+    console.debug(`line ${n}: ${line}`);
     console.debug(`chartType: ${chartType}`);
     console.debug(`chartDiff: ${chartDiff}`);
     console.debug(`smNotesPropList: ${smNotesPropList}`);
@@ -120,15 +120,18 @@ export default async function convertSimfile(path) {
     throw new Error(message);
   };
 
-  // reader.on("line", (line) => {
+  let n = 0;
   for await (let line of reader) {
+    n++;
+    // Remove trailing comments
+    line = line.replace(/\/\/.+?$/i, '');
     line = line.trim();
 
     if (line.slice(0, 2) === "//" || line === "") {
       continue;
     } else if (line === "#NOTEDATA:;") {
       if (noteDataActive) {
-        logAndExit("NOTEDATA while in previous NOTEDATA.", line);
+        logAndExit("NOTEDATA while in previous NOTEDATA.", line, n);
       }
       // Init BPM changes and Stops by Beat. Later we calculate by Combo.
       chartBpmsBeats = structuredClone(baseBpmsBeats);
@@ -137,7 +140,7 @@ export default async function convertSimfile(path) {
       continue;
     } else if (line === "#NOTES:") {
       if (notesActive) {
-        logAndExit("NOTES while in previous NOTES.", line);
+        logAndExit("NOTES while in previous NOTES.", line, n);
       }
       // In case we didn't have NOTEDATA
       chartBpmsBeats = chartBpmsBeats || structuredClone(baseBpmsBeats);
@@ -148,7 +151,7 @@ export default async function convertSimfile(path) {
       continue;
 
       // Comma ends a measure in a NOTES, semicolon can as well.
-    } else if (line === "," || line === ";") {
+    } else if (line === "," || line === ";" || line === ",;") {
       const nextMeasureT = t + 4;
       const tPerLine = 4 / measureLines.length;
       for (const mLine of measureLines) {
@@ -194,9 +197,9 @@ export default async function convertSimfile(path) {
     }
 
     // Semicolon ends NOTES and a chart
-    if (line === ";") {
+    if (line === ";" || line === ",;") {
       if (!notesActive) {
-        console.warn("Semicolon ; while not in NOTES.", line);
+        console.warn("Semicolon ; while not in NOTES.", line, n);
         continue;
       }
 
@@ -232,7 +235,7 @@ export default async function convertSimfile(path) {
       // Check if this is a notes prop line by looking for ending colon :
       if (line.slice(-1) === ":") {
         if (smNotesPropList.length >= 5) {
-          logAndExit("Over 5 NOTES colon props.", line);
+          logAndExit("Over 5 NOTES colon props.", line, n);
         }
         const propData = line.trim().slice(0, -1);
         smNotesPropList.push(propData);
@@ -246,7 +249,7 @@ export default async function convertSimfile(path) {
 
     // Old fashioned parsing
     if (line.slice(0, 1) !== "#" && line.slice(-1) !== ";") {
-      console.warn("Malformed line; should start with # and end with ;", line);
+      console.warn("Malformed line; should start with # and end with ;", line, n);
       continue;
     }
     const lineParts = line.slice(1, -1).split(":");
@@ -259,6 +262,7 @@ export default async function convertSimfile(path) {
         song.artist = value;
         break;
       case "BPMS":
+      case "BPMs":
         //0=100,20=200,52=825.608,63.875=200,128=100,160=200
         //[[0,100], [20,200], ...]
         const bpmsByBeat = value
