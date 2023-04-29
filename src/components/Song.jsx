@@ -113,14 +113,16 @@ const Song = (props) => {
   return (
     <div className='song'>
       <div className='song-meta'>
-        <Select
-          className='select-chart'
-          classNamePrefix='react-select'
-          defaultValue={{ value: props.defaultChart, label: getDifficultyLabel(props.defaultChart, props.chartType) }}
-          onChange={handleSelectChartChange}
-          options={chartOptions}
-          ref={selectChartRef}
-        />
+        {chartOptions.length > 0 ? (
+          <Select
+            className='select-chart'
+            classNamePrefix='react-select'
+            defaultValue={{ value: props.defaultChart, label: getDifficultyLabel(props.defaultChart, props.chartType) }}
+            onChange={handleSelectChartChange}
+            options={chartOptions}
+            ref={selectChartRef}
+          />
+        ) : null}
         {renderBpmSummary(bpmLow, bpmHigh)}
         {renderStopSummary(chartData.stops)}
         <div className='summary-spacer'></div>
@@ -132,6 +134,13 @@ const Song = (props) => {
           ref={bpmGraphRef}
         />
       </div>
+      {!props.songUrl ? (
+        <div className='splash'>
+          <h2>welcome to soflan.net!</h2>
+          <h4>Click the top bar, then type a song name. ↑</h4>
+          <p>by ayumi / twitter @colour</p>
+        </div>
+      ) : null}
       <Chart
         chartData={chartData}
         onViewportChange={handleChartViewportChange}

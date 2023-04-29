@@ -45,13 +45,15 @@ const Home = (props) => {
   // }, [hash]);
 
   return (
-    <div>
+    <div className='home'>
       <Select
         className='select-song'
         classNamePrefix='react-select'
         defaultValue={{ label: initialSong, value: initialSong }}
         onChange={handleSelectSongChange}
         options={options}
+        placeholder='Select song...'
+        value={song && song.value}
       />
       <Song
         chartType={chartType}

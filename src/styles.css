@@ -3,6 +3,9 @@ body {
   padding: 0;
 }
 
+.home .splash {
+}
+
   /* Dropdown caret */
 .select-song .react-select__indicator,
 .select-chart .react-select__indicator,
