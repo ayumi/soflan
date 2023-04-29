@@ -1,24 +1,7 @@
 // Logic for loading Song data and picking charts. Wraps the Chart viewer.
 import React, { useEffect, useRef, useState } from 'react';
 import Select from 'react-select';
-import { Scatter as ScatterChart } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip
-);
-
+import BpmGraph from './BpmGraph';
 import Chart from './Chart';
 import { writeUrlHash } from '../util'
 
@@ -44,8 +27,6 @@ const Song = (props) => {
   const [songData, setSongData] = useState(SONG_DATA_DEFAULT);
   const [chartData, setChartData] = useState([]);
   const [chart, setChart] = useState(props.defaultChart);
-  const [bpmGraphViewportLeft, setBpmGraphViewportLeft] = useState(0);
-  const [bpmGraphViewportRight, setBpmGraphViewportRight] = useState(0);
   const chartRef = useRef();
   const bpmGraphRef = useRef();
   const selectChartRef = useRef();
@@ -99,9 +80,13 @@ const Song = (props) => {
     }
   }, [songData]);
 
-  function handleChartViewportChange({ left, right }) {
-    setBpmGraphViewportLeft((100 * left).toFixed(3));
-    setBpmGraphViewportRight((100 * (1 - right)).toFixed(3));
+  // This triggers when clicking on the bpm graph.
+  function handleBpmGraphViewportChange(x) {
+    chartRef.current.setViewport(x);
+  }
+
+  function handleChartViewportChange(left, right) {
+    bpmGraphRef.current.setViewport(left, right);
   }
 
   // Simulate scrolling when mousing over the graph with any buttons held
@@ -139,26 +124,13 @@ const Song = (props) => {
         {renderBpmSummary(bpmLow, bpmHigh)}
         {renderStopSummary(chartData.stops)}
         <div className='summary-spacer'></div>
-        <div
-          className='bpm-graph'
-          onMouseDown={onBpmGraphMouse}
-          onMouseMove={onBpmGraphMouse}
-        >
-          {bpmGraphViewportLeft !== bpmGraphViewportRight ? (
-            <div
-              className='bpm-graph-viewport'
-              style={{ 'left': `${bpmGraphViewportLeft}%`, 'right': `${bpmGraphViewportRight}%` }}
-            >
-            </div>
-          ) : null}
-          {chartData.bpms ? (
-            <ScatterChart
-              data={getBpmGraphData({ chartData, bpmLow, bpmHigh })}
-              options={getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh })}
-              ref={bpmGraphRef}
-            />
-          ) : null}
-        </div>
+        <BpmGraph
+          chartData={chartData}
+          bpmLow={bpmLow}
+          bpmHigh={bpmHigh}
+          onViewportChange={handleBpmGraphViewportChange}
+          ref={bpmGraphRef}
+        />
       </div>
       <Chart
         chartData={chartData}
@@ -208,93 +180,6 @@ function renderBpmSummary(bpmLow, bpmHigh) {
       {Math.round(bpmLow)}{bpmHigh !== bpmLow ? `—${Math.round(bpmHigh)}` : ''}
     </div>
   </div>);
-}
-
-function getBpmGraphData({ chartData, bpmLow, bpmHigh }) {
-  // Add a point with the max T so the graph is drawn fully to the right
-  const stopBpm = (bpmLow + bpmHigh)/2;
-  const firstBpm = chartData.bpms[0]['b'];
-  const lastNoteBpm = {
-    x: chartData.events[chartData.events.length - 1]['t'],
-    y: chartData.bpms[chartData.bpms.length - 1]['b'],
-  }
-  return {
-    datasets: [
-      {
-        id: 1,
-        label: 'BPM',
-        data: chartData.bpms.map(bpm => ({ x: bpm['t'], y: bpm['b'], c: bpm['c'] })).concat([lastNoteBpm]),
-        borderColor: 'blue',
-        borderWidth: 1,
-        stepped: true,
-        pointStyle: false,
-        showLine: true,
-      },
-      {
-        id: 2,
-        label: 'Stop',
-        data: chartData.stops.map(stop => ({ x: stop['t'], y: stopBpm, c: stop['c'] })),
-        borderColor: 'magenta',
-        elements: {
-          point: {
-            pointHoverRadius: 20,
-            pointStyle: 'line',
-            radius: 20,
-            rotation: 90,
-          }
-        }
-      },
-    ],
-  };
-}
-
-function getBpmGraphDataOptions({ chartData, bpmLow, bpmHigh }) {
-  const maxT = chartData.events[chartData.events.length - 1]['t'];
-  const yMin = bpmLow === bpmHigh ? (bpmLow - 1) : bpmLow;
-  const yMax = bpmLow === bpmHigh ? (bpmHigh + 1) : bpmHigh;
-  return {
-    animation: false,
-    maintainAspectRatio: false,
-    responsive: true,
-    layout: {
-      autoPadding: false,
-      padding: {
-        right: 5,
-      }
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        min: 0,
-        max: maxT,
-        grid: {
-          tickLength: 1,
-        },
-        ticks: {
-          display: false,
-          stepSize: 100,
-        },
-      },
-      y: {
-        beginAtZero: true,
-        display: false,
-        min: yMin,
-        max: yMax,
-        ticks: { display: false },
-      },
-    },
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (context) => {
-            return context.dataset.label === 'Stop'
-              ? `Stop @ ${context.raw['c']}`
-              : `${Math.round(context.raw.y)} BPM @ ${context.raw['c']}`;
-          }
-        }
-      }
-    }
-  }
 }
 
 export default Song
