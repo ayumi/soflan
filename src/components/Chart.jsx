@@ -29,9 +29,6 @@ const Chart = (props, ref) => {
     props.onViewportChange(left, right);
   }
 
-  // TODO: Is this needed?
-  // const handleViewportChangeDelayed = debounce(handleViewportChange, 30);
-
   useEffect(() => {
     handleViewportChange();
   }, [props.chartData])

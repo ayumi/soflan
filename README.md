@@ -1,33 +1,16 @@
 # Soflan.net
 
+DDR step chart viewer. It's a client-side web app written in JavaScript for mobile and desktop web browsers.
+
 ## Development tips
 
+Requirements: Yarn, NodeJS, SQLite.
+
 `yarn start` - Start local webpack server in dev mode and serve the web app.
-`yarn import [path]` - Import simfiles from directory, adding them to the database and converting to special JSON files.
+`yarn import [path]` - Import simfiles (SM, SSC format) from directory, adding them to the database and converting to special JSON files.
 `yarn sql` - Run `sqlite3` and open the song database at `db/dev.sqlite3`.
 `yarn knex migrate:up` - Run DB migrations.
 `yarn knex migrate:down` - Roll back DB migrations.
-
-## Notes
-
-- Offline script:
-  - Parse step charts (SSC, SM).
-  - Regenerate song files as JSONs, 1 per song.
-  - Song JSONs have condensed notes format. Add helpful info like combo count.
-  - Combo count notes: freeze notes add combo when they start, but not when they end (tail). shocks (mines) add 1 combo.
-  - Build a single array of songs, which will serve as the index for browsing and searching songs.
-  - BONUS: Download song jackets, convert to 2x2 pixel gifs via imagemagick and encode to data uri gif (68 bytes each).
-    - convert jacket.png -interpolate Nearest -filter point -resize 2x2 gif:- | openssl base64 | tr -d '\n'
-- Web App:
-  - Loads the full song index. Build a search indexes by:
-    - Name
-    - Level
-  - Nav bar at top has [ Song Name ][ Difficulty ][ Level ]
-  - Search for a song name and select it to activate it. Default difficulty ESP.
-  - Difficulty selector switches difficulty. Sticky between songs, unless you use the Level selector. Does not affect song list.
-  - Level selector filters song list by level, to help with manual browsing. Sticky but can be disabled.
-  - Single/Double selector. Force to single for now.
-  - Sticky between page loads (local storage).
 
 ## DB Schema
 
@@ -44,7 +27,7 @@
     `updated_at` datetime
   );
   ```
-  
+
 ## JSON Song format
 
 title: ACE FOR ACES
@@ -72,3 +55,7 @@ charts:
     - t: 1
       c: 2
       b: 200
+
+## Misc
+
+Copyright 2023 Ayumi Yu, licensed under the MIT License.

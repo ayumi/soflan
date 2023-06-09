@@ -4,8 +4,6 @@ const devMode = process.env.NODE_ENV !== "production";
 
 module.exports = {
   externals: {
-    // react: 'React',
-    // 'react-dom': 'ReactDOM',
   },
   module: {
     rules: [
@@ -17,7 +15,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          devMode ? "style-loader" : MiniCssExtractPlugin.loader,
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader'
         ]
       },
