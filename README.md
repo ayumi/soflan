@@ -1,6 +1,6 @@
 # Soflan.net
 
-DDR step chart viewer. It's a client-side web app written in JavaScript for mobile and desktop web browsers.
+DDR step chart viewer. It's a client-side web app written in React and JS for mobile and desktop web browsers.
 
 ## Development tips
 
