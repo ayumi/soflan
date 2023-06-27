@@ -6,11 +6,11 @@ DDR step chart viewer. It's a client-side web app written in React and JS for mo
 
 Requirements: Yarn, NodeJS, SQLite.
 
-`yarn start` - Start local webpack server in dev mode and serve the web app.
-`yarn import [path]` - Import simfiles (SM, SSC format) from directory, adding them to the database and converting to special JSON files.
-`yarn sql` - Run `sqlite3` and open the song database at `db/dev.sqlite3`.
-`yarn knex migrate:up` - Run DB migrations.
-`yarn knex migrate:down` - Roll back DB migrations.
+- `yarn start` - Start local webpack server in dev mode and serve the web app.
+- `yarn import [path]` - Import simfiles (SM, SSC format) from directory, adding them to the database and converting to special JSON files.
+- `yarn sql` - Run `sqlite3` and open the song database at `db/dev.sqlite3`.
+- `yarn knex migrate:up` - Run DB migrations.
+- `yarn knex migrate:down` - Roll back DB migrations.
 
 ## DB Schema
 
@@ -30,6 +30,7 @@ Requirements: Yarn, NodeJS, SQLite.
 
 ## JSON Song format
 
+```yaml
 title: ACE FOR ACES
 artist: TAG
 type: dance-single
@@ -55,6 +56,7 @@ charts:
     - t: 1
       c: 2
       b: 200
+```
 
 ## Misc
 
